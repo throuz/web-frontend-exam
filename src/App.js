@@ -52,6 +52,17 @@ const theme = createTheme({
       1500: "#000000",
     },
   },
+  typography: {
+    body9: "2.986rem",
+    body8: "2.488rem",
+    body7: "2.074rem",
+    body6: "1.728rem",
+    body5: "1.440rem",
+    body4: "1.200rem",
+    body3: "1rem",
+    body2: "0.833rem",
+    body1: "0.694rem",
+  },
 });
 
 function App() {
