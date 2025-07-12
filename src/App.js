@@ -1,4 +1,5 @@
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import JobCard from "./components/JobCard";
 
 const theme = createTheme({
   palette: {
@@ -68,7 +69,12 @@ const theme = createTheme({
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <div className="main">Hello World</div>
+      <div
+        className="main"
+        style={{ background: "#f2f2f2", minHeight: "100vh", padding: "2rem" }}
+      >
+        <JobCard />
+      </div>
     </ThemeProvider>
   );
 }
