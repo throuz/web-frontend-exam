@@ -94,7 +94,7 @@ const MainPage = () => {
             // backgroundRepeat: "no-repeat",
             // backgroundSize: "contain",
             // backgroundPosition: "left bottom",
-            zIndex: 3,
+            zIndex: 4,
           }}
           component="img"
           src={characterImg}
@@ -105,11 +105,11 @@ const MainPage = () => {
             position: "absolute",
             top: { xs: 88, md: 307.82 },
             left: { xs: 166, md: 582.04 },
-            width: { xs: 12.39, md: 40.2 },
+            width: { xs: 15, md: 44 },
             // backgroundImage: `url(${leftEyeImg})`,
             // backgroundRepeat: "no-repeat",
             // backgroundSize: "contain",
-            zIndex: 4,
+            zIndex: 3,
           }}
           component="img"
           src={leftEyeImg}
@@ -119,12 +119,12 @@ const MainPage = () => {
           sx={{
             position: "absolute",
             top: { xs: 87, md: 302 },
-            left: { xs: 212, md: 729 },
-            width: { xs: 9.99, md: 33.76 },
+            left: { xs: 210, md: 729 },
+            width: { xs: 12, md: 40 },
             // backgroundImage: `url(${rightEyeImg})`,
             // backgroundRepeat: "no-repeat",
             // backgroundSize: "contain",
-            zIndex: 5,
+            zIndex: 3,
           }}
           component="img"
           src={rightEyeImg}
@@ -140,7 +140,7 @@ const MainPage = () => {
             // backgroundRepeat: "no-repeat",
             // backgroundSize: "contain",
             // backgroundPosition: "right top",
-            zIndex: 10,
+            zIndex: 2,
           }}
           component="img"
           src={logoImg}
