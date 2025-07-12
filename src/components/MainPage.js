@@ -9,7 +9,10 @@ import {
   Autocomplete,
 } from "@mui/material";
 import bgImg from "../images/background.jpg";
-import characterImg from "../images/character-white.png";
+import characterWhiteImg from "../images/character-white.png";
+import characterImg from "../images/character.png";
+import leftEyeImg from "../images/left-eye.png";
+import rightEyeImg from "../images/right-eye.png";
 import logoImg from "../images/logo.png";
 
 const educationOptions = [
@@ -50,37 +53,90 @@ const MainPage = () => {
           overflow: "hidden",
         }}
       >
-        <img
-          src={bgImg}
-          alt="background"
-          style={{
+        {/* background.jpg */}
+        <Box
+          sx={{
+            position: "absolute",
+            inset: 0,
             width: "100%",
             height: "100%",
-            objectFit: "cover",
-            display: "block",
+            backgroundImage: `url(${bgImg})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            zIndex: 1,
           }}
         />
-        <img
-          src={characterImg}
-          alt="character"
-          style={{
+        {/* character-white.png */}
+        <Box
+          sx={{
             position: "absolute",
             left: 0,
             bottom: 0,
             height: "100%",
-            maxHeight: "340px",
+            width: { xs: 180, md: 340 },
+            backgroundImage: `url(${characterWhiteImg})`,
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "contain",
+            backgroundPosition: "left bottom",
             zIndex: 2,
           }}
         />
-        <img
-          src={logoImg}
-          alt="logo"
-          style={{
+        {/* character.png */}
+        <Box
+          sx={{
             position: "absolute",
-            right: 40,
-            top: 40,
-            height: 100,
+            left: 0,
+            bottom: 0,
+            height: "100%",
+            width: { xs: 180, md: 340 },
+            backgroundImage: `url(${characterImg})`,
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "contain",
+            backgroundPosition: "left bottom",
             zIndex: 3,
+          }}
+        />
+        {/* left-eye.png */}
+        <Box
+          sx={{
+            position: "absolute",
+            left: { xs: 70, md: 130 },
+            top: { xs: 80, md: 120 },
+            width: { xs: 30, md: 57 },
+            height: { xs: 20, md: 42 },
+            backgroundImage: `url(${leftEyeImg})`,
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "contain",
+            zIndex: 4,
+          }}
+        />
+        {/* right-eye.png */}
+        <Box
+          sx={{
+            position: "absolute",
+            left: { xs: 120, md: 210 },
+            top: { xs: 90, md: 145 },
+            width: { xs: 40, md: 87 },
+            height: { xs: 30, md: 59 },
+            backgroundImage: `url(${rightEyeImg})`,
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "contain",
+            zIndex: 5,
+          }}
+        />
+        {/* logo.png */}
+        <Box
+          sx={{
+            position: "absolute",
+            right: { xs: 10, md: 40 },
+            top: { xs: 10, md: 40 },
+            height: { xs: 60, md: 100 },
+            width: { xs: 120, md: 180 },
+            backgroundImage: `url(${logoImg})`,
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "contain",
+            backgroundPosition: "right top",
+            zIndex: 10,
           }}
         />
       </Box>
