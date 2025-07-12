@@ -7,7 +7,6 @@ import {
   Stack,
   Paper,
   Autocomplete,
-  Container,
 } from "@mui/material";
 import bgImg from "../images/background.jpg";
 import characterWhiteImg from "../images/character-white.png";
@@ -38,12 +37,7 @@ const salaryOptions = [
 
 const MainPage = () => {
   return (
-    <Container
-      sx={{
-        background: "linear-gradient(#868686, #5C5C5C)",
-      }}
-      maxWidth="xl"
-    >
+    <Box>
       {/* Hero Section */}
       <Box
         sx={{
@@ -262,7 +256,7 @@ const MainPage = () => {
           </Box>
         </Paper>
       </Box>
-    </Container>
+    </Box>
   );
 };
 
