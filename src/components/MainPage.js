@@ -116,7 +116,7 @@ const MainPage = () => {
             mb={2}
             alignItems="stretch"
           >
-            <Box sx={{ flex: 2, display: "flex", alignItems: "stretch" }}>
+            <Box sx={{ flex: 2 }}>
               <TextField
                 fullWidth
                 placeholder="請輸入公司名稱"
@@ -126,7 +126,7 @@ const MainPage = () => {
                 InputProps={{ sx: { height: 56 } }}
               />
             </Box>
-            <Box sx={{ flex: 1, display: "flex", alignItems: "stretch" }}>
+            <Box sx={{ flex: 1 }}>
               <Autocomplete
                 disablePortal
                 options={educationOptions}
@@ -141,7 +141,7 @@ const MainPage = () => {
                 sx={{ width: "100%" }}
               />
             </Box>
-            <Box sx={{ flex: 1, display: "flex", alignItems: "stretch" }}>
+            <Box sx={{ flex: 1 }}>
               <Autocomplete
                 disablePortal
                 options={salaryOptions}
