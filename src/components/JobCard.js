@@ -17,7 +17,7 @@ const JobCard = ({
   jobTitle = "前端工程師 Frontend Engineer",
   education = "學歷",
   salary = "薪水範圍",
-  preview = "負責設計、開發和維護技術方案，解決複雜的問題。擁有卓越的問題解決能力和創新思維，熟練應用科技工具，確保項目高效…",
+  preview = "負責設計、開發和維護技術方案，解決複雜的問題。擁有卓越的問題解決能力和創新思維，熟練應用科技工具，確保項目高效實施。具備協作精神，致力於推動科技進步。",
   onDetailClick = () => {},
 }) => {
   const theme = useTheme();
