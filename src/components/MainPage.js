@@ -3,10 +3,10 @@ import {
   Box,
   Typography,
   TextField,
-  MenuItem,
   Button,
   Stack,
   Paper,
+  Autocomplete,
 } from "@mui/material";
 import bgImg from "../images/background.jpg";
 import characterImg from "../images/character-white.png";
@@ -110,73 +110,53 @@ const MainPage = () => {
               適合前端工程師的好工作
             </Typography>
           </Stack>
-          <Stack direction={{ xs: "column", md: "row" }} spacing={2} mb={2}>
-            <Box sx={{ flex: 2 }}>
-              <Typography
-                sx={{
-                  fontSize: (theme) => theme.typography.body2,
-                  color: (theme) => theme.palette.gray[800],
-                  mb: 0.5,
-                }}
-              >
-                公司名稱／關鍵字
-              </Typography>
+          <Stack
+            direction={{ xs: "column", md: "row" }}
+            spacing={2}
+            mb={2}
+            alignItems="stretch"
+          >
+            <Box sx={{ flex: 2, display: "flex", alignItems: "stretch" }}>
               <TextField
                 fullWidth
-                size="small"
                 placeholder="請輸入公司名稱"
-                sx={{ bgcolor: (theme) => theme.palette.gray[100] }}
+                label="公司名稱／關鍵字"
+                variant="outlined"
+                sx={{ bgcolor: (theme) => theme.palette.gray[100], height: 56 }}
+                InputProps={{ sx: { height: 56 } }}
               />
             </Box>
-            <Box sx={{ flex: 1 }}>
-              <Typography
-                sx={{
-                  fontSize: (theme) => theme.typography.body2,
-                  color: (theme) => theme.palette.gray[800],
-                  mb: 0.5,
-                }}
-              >
-                教育程度
-              </Typography>
-              <TextField
-                select
-                fullWidth
-                size="small"
-                defaultValue=""
-                sx={{ bgcolor: (theme) => theme.palette.gray[100] }}
-              >
-                {educationOptions.map((opt) => (
-                  <MenuItem key={opt.value} value={opt.value}>
-                    {opt.label}
-                  </MenuItem>
-                ))}
-              </TextField>
+            <Box sx={{ flex: 1, display: "flex", alignItems: "stretch" }}>
+              <Autocomplete
+                disablePortal
+                options={educationOptions}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="教育程度"
+                    sx={{ height: 56 }}
+                    InputProps={{ ...params.InputProps, sx: { height: 56 } }}
+                  />
+                )}
+                sx={{ width: "100%" }}
+              />
             </Box>
-            <Box sx={{ flex: 1 }}>
-              <Typography
-                sx={{
-                  fontSize: (theme) => theme.typography.body2,
-                  color: (theme) => theme.palette.gray[800],
-                  mb: 0.5,
-                }}
-              >
-                薪水範圍
-              </Typography>
-              <TextField
-                select
-                fullWidth
-                size="small"
-                defaultValue=""
-                sx={{ bgcolor: (theme) => theme.palette.gray[100] }}
-              >
-                {salaryOptions.map((opt) => (
-                  <MenuItem key={opt.value} value={opt.value}>
-                    {opt.label}
-                  </MenuItem>
-                ))}
-              </TextField>
+            <Box sx={{ flex: 1, display: "flex", alignItems: "stretch" }}>
+              <Autocomplete
+                disablePortal
+                options={salaryOptions}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="薪水範圍"
+                    sx={{ height: 56 }}
+                    InputProps={{ ...params.InputProps, sx: { height: 56 } }}
+                  />
+                )}
+                sx={{ width: "100%" }}
+              />
             </Box>
-            <Box sx={{ alignSelf: "flex-end", minWidth: 120 }}>
+            <Box sx={{ display: "flex", alignItems: "stretch" }}>
               <Button
                 variant="contained"
                 sx={{
@@ -186,6 +166,7 @@ const MainPage = () => {
                   fontSize: (theme) => theme.typography.body3,
                   borderRadius: 1,
                   boxShadow: "none",
+                  height: 56,
                   "&:hover": {
                     bgcolor: (theme) => theme.palette.gray[600],
                   },
