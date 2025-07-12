@@ -29,7 +29,7 @@ const JobCard = ({
         boxShadow: "none",
         transition: "box-shadow 0.2s",
         "&:hover": {
-          boxShadow: "0 4px 24px 0 rgba(51,51,51,0.12)",
+          boxShadow: "0px 0px 8px #00000059",
         },
         p: 2, // 16px
       }}
