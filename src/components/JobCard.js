@@ -24,6 +24,7 @@ const JobCard = ({
   return (
     <Card
       sx={{
+        backgroundColor: theme.palette.gray[100],
         borderRadius: "6px",
         border: `1px solid ${theme.palette.gray[500]}`,
         boxShadow: "none",
@@ -46,8 +47,8 @@ const JobCard = ({
           <Typography
             sx={{
               fontWeight: 700,
-              color: theme.palette.gray[1100],
-              fontSize: theme.typography.body6,
+              color: theme.palette.gray[1000],
+              fontSize: theme.typography.body5,
             }}
           >
             {companyName}
@@ -55,14 +56,14 @@ const JobCard = ({
           <Stack direction="row" alignItems="center" spacing={1}>
             <PersonOutlineIcon
               sx={{
-                color: theme.palette.gray[700],
-                fontSize: theme.typography.body4,
+                color: theme.palette.gray[800],
+                fontSize: theme.typography.body2,
               }}
             />
             <Typography
               sx={{
-                color: theme.palette.gray[700],
-                fontSize: theme.typography.body3,
+                color: theme.palette.gray[800],
+                fontSize: theme.typography.body2,
               }}
             >
               {jobTitle}
@@ -71,14 +72,14 @@ const JobCard = ({
           <Stack direction="row" alignItems="center" spacing={1}>
             <MenuBookOutlinedIcon
               sx={{
-                color: theme.palette.gray[700],
-                fontSize: theme.typography.body4,
+                color: theme.palette.gray[800],
+                fontSize: theme.typography.body2,
               }}
             />
             <Typography
               sx={{
-                color: theme.palette.gray[700],
-                fontSize: theme.typography.body3,
+                color: theme.palette.gray[800],
+                fontSize: theme.typography.body2,
               }}
             >
               {education}
@@ -87,16 +88,14 @@ const JobCard = ({
           <Stack direction="row" alignItems="center" spacing={1}>
             <PaidOutlinedIcon
               sx={{
-                color: theme.palette.gray[1100],
-                fontSize: theme.typography.body4,
-                fontWeight: 700,
+                color: theme.palette.gray[800],
+                fontSize: theme.typography.body2,
               }}
             />
             <Typography
               sx={{
-                color: theme.palette.gray[1100],
-                fontWeight: 700,
-                fontSize: theme.typography.body3,
+                color: theme.palette.gray[800],
+                fontSize: theme.typography.body2,
               }}
             >
               {salary}
@@ -104,8 +103,8 @@ const JobCard = ({
           </Stack>
           <Typography
             sx={{
-              color: theme.palette.gray[1100],
-              fontSize: theme.typography.body3,
+              color: theme.palette.gray[1000],
+              fontSize: theme.typography.body2,
               overflow: "hidden",
               textOverflow: "ellipsis",
               display: "-webkit-box",
@@ -122,8 +121,8 @@ const JobCard = ({
               sx={{
                 color: theme.palette.orange[700],
                 fontWeight: 700,
-                fontSize: theme.typography.body3,
-                p: 0,
+                fontSize: theme.typography.body2,
+                p: "0 10px",
                 minWidth: 0,
                 "&:hover": {
                   background: "none",
