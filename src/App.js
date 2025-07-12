@@ -1,5 +1,6 @@
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import JobCard from "./components/JobCard";
+import "./fonts.css";
 
 const theme = createTheme({
   palette: {
@@ -54,6 +55,7 @@ const theme = createTheme({
     },
   },
   typography: {
+    fontFamily: "'Noto Sans TC', 'sans-serif'",
     body9: "2.986rem",
     body8: "2.488rem",
     body7: "2.074rem",
