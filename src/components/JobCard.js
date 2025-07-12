@@ -106,8 +106,6 @@ const JobCard = ({
             sx={{
               color: theme.palette.gray[1100],
               fontSize: theme.typography.body3,
-              minHeight: "3.5em",
-              lineHeight: 1.5,
               overflow: "hidden",
               textOverflow: "ellipsis",
               display: "-webkit-box",
