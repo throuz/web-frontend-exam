@@ -1,0 +1,226 @@
+import React from "react";
+import {
+  Box,
+  Typography,
+  TextField,
+  MenuItem,
+  Button,
+  Stack,
+  Paper,
+} from "@mui/material";
+import bgImg from "../images/background.jpg";
+import characterImg from "../images/character-white.png";
+import logoImg from "../images/logo.png";
+
+const educationOptions = [
+  { label: "不限", value: "" },
+  { label: "國小", value: "1" },
+  { label: "國中", value: "2" },
+  { label: "高中", value: "3" },
+  { label: "大學", value: "4" },
+  { label: "碩士", value: "5" },
+  { label: "博士", value: "6" },
+];
+const salaryOptions = [
+  { label: "不限", value: "" },
+  { label: "待遇面議", value: "1" },
+  { label: "月薪 40,000 ~ 60,000 元", value: "2" },
+  { label: "月薪 70,000 ~ 10,000 元", value: "3" },
+  { label: "年薪 800,000 ~ 1,000,000 元", value: "4" },
+  { label: "年薪 800,000 ~ 1,500,000 元", value: "5" },
+  { label: "年薪 1,500,000 ~ 2,000,000 元", value: "6" },
+  { label: "年薪 2,000,000 ~ 2,500,000 元", value: "7" },
+];
+
+const MainPage = () => {
+  return (
+    <Box
+      sx={{
+        minHeight: "100vh",
+        bgcolor: (theme) => theme.palette.gray[200],
+        p: 0,
+      }}
+    >
+      {/* Hero Section */}
+      <Box
+        sx={{
+          position: "relative",
+          width: "100%",
+          height: { xs: 240, md: 340 },
+          overflow: "hidden",
+        }}
+      >
+        <img
+          src={bgImg}
+          alt="background"
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            display: "block",
+          }}
+        />
+        <img
+          src={characterImg}
+          alt="character"
+          style={{
+            position: "absolute",
+            left: 0,
+            bottom: 0,
+            height: "100%",
+            maxHeight: "340px",
+            zIndex: 2,
+          }}
+        />
+        <img
+          src={logoImg}
+          alt="logo"
+          style={{
+            position: "absolute",
+            right: 40,
+            top: 40,
+            height: 100,
+            zIndex: 3,
+          }}
+        />
+      </Box>
+      {/* Main Card */}
+      <Box sx={{ maxWidth: 1200, mx: "auto", mt: -8, p: 2 }}>
+        <Paper elevation={1} sx={{ borderRadius: 2, p: 3 }}>
+          {/* Search Form */}
+          <Stack direction="row" alignItems="center" spacing={1} mb={2}>
+            <Box
+              component="span"
+              sx={{
+                width: 8,
+                height: 8,
+                bgcolor: (theme) => theme.palette.orange[700],
+                borderRadius: "50%",
+                mr: 1,
+                display: "inline-block",
+              }}
+            />
+            <Typography
+              sx={{
+                fontWeight: 700,
+                fontSize: (theme) => theme.typography.body4,
+                color: (theme) => theme.palette.gray[1100],
+              }}
+            >
+              適合前端工程師的好工作
+            </Typography>
+          </Stack>
+          <Stack direction={{ xs: "column", md: "row" }} spacing={2} mb={2}>
+            <Box sx={{ flex: 2 }}>
+              <Typography
+                sx={{
+                  fontSize: (theme) => theme.typography.body2,
+                  color: (theme) => theme.palette.gray[800],
+                  mb: 0.5,
+                }}
+              >
+                公司名稱／關鍵字
+              </Typography>
+              <TextField
+                fullWidth
+                size="small"
+                placeholder="請輸入公司名稱"
+                sx={{ bgcolor: (theme) => theme.palette.gray[100] }}
+              />
+            </Box>
+            <Box sx={{ flex: 1 }}>
+              <Typography
+                sx={{
+                  fontSize: (theme) => theme.typography.body2,
+                  color: (theme) => theme.palette.gray[800],
+                  mb: 0.5,
+                }}
+              >
+                教育程度
+              </Typography>
+              <TextField
+                select
+                fullWidth
+                size="small"
+                defaultValue=""
+                sx={{ bgcolor: (theme) => theme.palette.gray[100] }}
+              >
+                {educationOptions.map((opt) => (
+                  <MenuItem key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Box>
+            <Box sx={{ flex: 1 }}>
+              <Typography
+                sx={{
+                  fontSize: (theme) => theme.typography.body2,
+                  color: (theme) => theme.palette.gray[800],
+                  mb: 0.5,
+                }}
+              >
+                薪水範圍
+              </Typography>
+              <TextField
+                select
+                fullWidth
+                size="small"
+                defaultValue=""
+                sx={{ bgcolor: (theme) => theme.palette.gray[100] }}
+              >
+                {salaryOptions.map((opt) => (
+                  <MenuItem key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Box>
+            <Box sx={{ alignSelf: "flex-end", minWidth: 120 }}>
+              <Button
+                variant="contained"
+                sx={{
+                  bgcolor: (theme) => theme.palette.gray[500],
+                  color: (theme) => theme.palette.gray[100],
+                  fontWeight: 700,
+                  fontSize: (theme) => theme.typography.body3,
+                  borderRadius: 1,
+                  boxShadow: "none",
+                  "&:hover": {
+                    bgcolor: (theme) => theme.palette.gray[600],
+                  },
+                }}
+                fullWidth
+              >
+                條件搜尋
+              </Button>
+            </Box>
+          </Stack>
+          {/* Data Section */}
+          <Box
+            sx={{
+              minHeight: 280,
+              bgcolor: (theme) => theme.palette.gray[100],
+              borderRadius: 1,
+              p: 3,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Typography
+              sx={{
+                color: (theme) => theme.palette.gray[700],
+                fontSize: (theme) => theme.typography.body3,
+              }}
+            >
+              無資料
+            </Typography>
+          </Box>
+        </Paper>
+      </Box>
+    </Box>
+  );
+};
+
+export default MainPage;

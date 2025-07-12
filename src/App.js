@@ -1,6 +1,6 @@
+import React from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import JobCard from "./components/JobCard";
-import "./fonts.css";
+import MainPage from "./components/MainPage";
 
 const theme = createTheme({
   palette: {
@@ -71,12 +71,7 @@ const theme = createTheme({
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <div
-        className="main"
-        style={{ background: "#f2f2f2", minHeight: "100vh", padding: "2rem" }}
-      >
-        <JobCard />
-      </div>
+      <MainPage />
     </ThemeProvider>
   );
 }
