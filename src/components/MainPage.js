@@ -140,8 +140,19 @@ const MainPage = () => {
           src={logoImg}
         />
       </Box>
-      {/* Main Card */}
-      <Box sx={{ maxWidth: 1200, mx: "auto", mt: -8, p: 2 }}>
+      {/* Main Card 浮在圖片上方 */}
+      <Box
+        sx={{
+          position: "absolute",
+          left: "50%",
+          top: { xs: 180, md: 600 },
+          transform: "translateX(-50%)",
+          width: "100%",
+          maxWidth: 1200,
+          zIndex: 20,
+          px: 2,
+        }}
+      >
         <Paper elevation={1} sx={{ borderRadius: 2, p: 3 }}>
           {/* Search Form */}
           <Stack direction="row" alignItems="center" spacing={1} mb={2}>
