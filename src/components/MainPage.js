@@ -49,7 +49,7 @@ const MainPage = () => {
         sx={{
           position: "relative",
           width: "100%",
-          height: { xs: 240, md: 340 },
+          height: { xs: 238, md: 823 },
           overflow: "hidden",
         }}
       >
@@ -60,11 +60,13 @@ const MainPage = () => {
             inset: 0,
             width: "100%",
             height: "100%",
-            backgroundImage: `url(${bgImg})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
+            // backgroundImage: `url(${bgImg})`,
+            // backgroundSize: "cover",
+            // backgroundPosition: "center",
             zIndex: 1,
           }}
+          component="img"
+          src={bgImg}
         />
         {/* character-white.png */}
         <Box
@@ -74,12 +76,14 @@ const MainPage = () => {
             bottom: 0,
             height: "100%",
             width: { xs: 180, md: 340 },
-            backgroundImage: `url(${characterWhiteImg})`,
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "contain",
-            backgroundPosition: "left bottom",
+            // backgroundImage: `url(${characterWhiteImg})`,
+            // backgroundRepeat: "no-repeat",
+            // backgroundSize: "contain",
+            // backgroundPosition: "left bottom",
             zIndex: 2,
           }}
+          component="img"
+          src={characterWhiteImg}
         />
         {/* character.png */}
         <Box
@@ -89,12 +93,14 @@ const MainPage = () => {
             bottom: 0,
             height: "100%",
             width: { xs: 180, md: 340 },
-            backgroundImage: `url(${characterImg})`,
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "contain",
-            backgroundPosition: "left bottom",
+            // backgroundImage: `url(${characterImg})`,
+            // backgroundRepeat: "no-repeat",
+            // backgroundSize: "contain",
+            // backgroundPosition: "left bottom",
             zIndex: 3,
           }}
+          component="img"
+          src={characterImg}
         />
         {/* left-eye.png */}
         <Box
@@ -104,11 +110,13 @@ const MainPage = () => {
             top: { xs: 80, md: 120 },
             width: { xs: 30, md: 57 },
             height: { xs: 20, md: 42 },
-            backgroundImage: `url(${leftEyeImg})`,
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "contain",
+            // backgroundImage: `url(${leftEyeImg})`,
+            // backgroundRepeat: "no-repeat",
+            // backgroundSize: "contain",
             zIndex: 4,
           }}
+          component="img"
+          src={leftEyeImg}
         />
         {/* right-eye.png */}
         <Box
@@ -118,11 +126,13 @@ const MainPage = () => {
             top: { xs: 90, md: 145 },
             width: { xs: 40, md: 87 },
             height: { xs: 30, md: 59 },
-            backgroundImage: `url(${rightEyeImg})`,
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "contain",
+            // backgroundImage: `url(${rightEyeImg})`,
+            // backgroundRepeat: "no-repeat",
+            // backgroundSize: "contain",
             zIndex: 5,
           }}
+          component="img"
+          src={rightEyeImg}
         />
         {/* logo.png */}
         <Box
@@ -132,12 +142,14 @@ const MainPage = () => {
             top: { xs: 10, md: 40 },
             height: { xs: 60, md: 100 },
             width: { xs: 120, md: 180 },
-            backgroundImage: `url(${logoImg})`,
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "contain",
-            backgroundPosition: "right top",
+            // backgroundImage: `url(${logoImg})`,
+            // backgroundRepeat: "no-repeat",
+            // backgroundSize: "contain",
+            // backgroundPosition: "right top",
             zIndex: 10,
           }}
+          component="img"
+          src={logoImg}
         />
       </Box>
       {/* Main Card */}
