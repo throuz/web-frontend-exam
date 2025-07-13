@@ -10,6 +10,7 @@ import {
   DialogContent,
   DialogActions,
   Button,
+  Stack,
 } from "@mui/material";
 import JobCard from "./JobCard";
 
@@ -53,10 +54,26 @@ function JobDetailDialog({ open, jobId, onClose }) {
             <CircularProgress color="warning" />
           </Box>
         ) : job ? (
-          <>
-            <Typography sx={{ fontWeight: 700, fontSize: 18, mb: 1 }}>
-              {job.companyName} {job.jobTitle}
-            </Typography>
+          <Stack spacing={2.25}>
+            <Stack direction="row" alignItems="center" spacing={1}>
+              <Typography
+                sx={{
+                  fontWeight: 700,
+                  fontSize: (theme) => theme.typography.body5,
+                  color: (theme) => theme.palette.gray[1000],
+                }}
+              >
+                {job.companyName}
+              </Typography>
+              <Typography
+                sx={{
+                  fontSize: (theme) => theme.typography.body4,
+                  color: (theme) => theme.palette.gray[1000],
+                }}
+              >
+                {job.jobTitle}
+              </Typography>
+            </Stack>
             <Box sx={{ display: "flex", gap: 1, mb: 2 }}>
               {(job.companyPhoto || []).map((url, idx) => (
                 <Box
@@ -73,17 +90,28 @@ function JobDetailDialog({ open, jobId, onClose }) {
                 />
               ))}
             </Box>
-            <Box sx={{ mb: 1 }}>
-              <Typography sx={{ fontWeight: 700, fontSize: 16, mb: 0.5 }}>
+            <Stack spacing={1}>
+              <Typography
+                sx={{
+                  fontWeight: 700,
+                  fontSize: (theme) => theme.typography.body4,
+                  color: (theme) => theme.palette.gray[1100],
+                }}
+              >
                 工作內容
               </Typography>
-              <Box sx={{ color: "gray.900", fontSize: 15 }}>
+              <Box
+                sx={{
+                  fontSize: (theme) => theme.typography.body3,
+                  color: (theme) => theme.palette.gray[800],
+                }}
+              >
                 <div
                   dangerouslySetInnerHTML={{ __html: job.description || "" }}
                 />
               </Box>
-            </Box>
-          </>
+            </Stack>
+          </Stack>
         ) : null}
       </DialogContent>
       <DialogActions>
