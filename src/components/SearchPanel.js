@@ -9,7 +9,7 @@ import {
   Button,
 } from "@mui/material";
 
-const SearchPanel = ({ educationOptions, salaryOptions }) => (
+const SearchPanel = ({ educationOptions, salaryOptions, jobList }) => (
   <Box
     sx={{
       position: "absolute",
@@ -125,14 +125,18 @@ const SearchPanel = ({ educationOptions, salaryOptions }) => (
           justifyContent: "center",
         }}
       >
-        <Typography
-          sx={{
-            color: (theme) => theme.palette.gray[700],
-            fontSize: (theme) => theme.typography.body3,
-          }}
-        >
-          無資料
-        </Typography>
+        {!jobList || jobList.length === 0 ? (
+          <Typography
+            sx={{
+              color: (theme) => theme.palette.gray[700],
+              fontSize: (theme) => theme.typography.body3,
+            }}
+          >
+            無資料
+          </Typography>
+        ) : (
+          <Typography>有資料（請根據需求渲染列表）</Typography>
+        )}
       </Box>
     </Paper>
   </Box>
