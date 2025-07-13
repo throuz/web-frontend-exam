@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Typography,
@@ -12,10 +12,10 @@ import {
 import JobCard from "./JobCard";
 
 function JobDetailDialog({ open, jobId, onClose }) {
-  const [job, setJob] = React.useState(null);
-  const [loading, setLoading] = React.useState(false);
+  const [job, setJob] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!open || !jobId) {
       setJob(null);
       return;
