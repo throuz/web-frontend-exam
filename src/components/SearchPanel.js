@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Paper } from "@mui/material";
 import SearchForm from "./SearchForm";
 import JobListSection from "./JobListSection";
@@ -24,6 +24,13 @@ const SearchPanel = ({
   const [salaryLevel, setSalaryLevel] = useState(
     searchValues?.salaryLevel || ""
   );
+
+  // 當 searchValues 變動時同步表單狀態（如 query string 變動）
+  useEffect(() => {
+    setCompanyName(searchValues?.companyName || "");
+    setEducationLevel(searchValues?.educationLevel || "");
+    setSalaryLevel(searchValues?.salaryLevel || "");
+  }, [searchValues]);
 
   // 條件搜尋
   const handleSearch = () => {

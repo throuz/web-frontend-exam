@@ -3,17 +3,40 @@ import { Box } from "@mui/material";
 import HeroSection from "./HeroSection";
 import SearchPanel from "./SearchPanel";
 
+function getQueryParams() {
+  const params = new URLSearchParams(window.location.search);
+  return {
+    companyName: params.get("companyName") || "",
+    educationLevel: params.get("educationLevel") || "",
+    salaryLevel: params.get("salaryLevel") || "",
+    page: parseInt(params.get("page"), 10) || 1,
+  };
+}
+
+function setQueryParams({ companyName, educationLevel, salaryLevel, page }) {
+  const params = new URLSearchParams();
+  if (companyName) params.set("companyName", companyName);
+  if (educationLevel) params.set("educationLevel", educationLevel);
+  if (salaryLevel) params.set("salaryLevel", salaryLevel);
+  if (page && page !== 1) params.set("page", page);
+  const newUrl = `${window.location.pathname}?${params.toString()}`;
+  window.history.replaceState({}, "", newUrl);
+}
+
 const MainPage = () => {
   const [educationOptions, setEducationOptions] = useState([]);
   const [salaryOptions, setSalaryOptions] = useState([]);
   const [jobList, setJobList] = useState([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [page, setPage] = useState(1);
+
+  // 讀取 query string 作為初始值
+  const initialQuery = getQueryParams();
+  const [page, setPage] = useState(initialQuery.page);
   const [searchValues, setSearchValues] = useState({
-    companyName: "",
-    educationLevel: "",
-    salaryLevel: "",
+    companyName: initialQuery.companyName,
+    educationLevel: initialQuery.educationLevel,
+    salaryLevel: initialQuery.salaryLevel,
   });
 
   // 取得下拉選單
@@ -84,8 +107,9 @@ const MainPage = () => {
       .finally(() => setLoading(false));
   };
 
-  // 初次載入與條件/分頁變動時取得資料
+  // 監聽搜尋條件/分頁變動時，同步 query string 並取得資料
   useEffect(() => {
+    setQueryParams({ ...searchValues, page });
     fetchJobs({ page });
     // eslint-disable-next-line
   }, [educationOptions, salaryOptions, page, searchValues]);
@@ -94,13 +118,13 @@ const MainPage = () => {
   const handleSearch = (values) => {
     setSearchValues(values);
     setPage(1);
-    fetchJobs({ ...values, page: 1 });
+    // fetchJobs({ ...values, page: 1 }); // 由 useEffect 處理
   };
 
   // 分頁事件
   const handlePageChange = (newPage) => {
     setPage(newPage);
-    fetchJobs({ page: newPage });
+    // fetchJobs({ page: newPage }); // 由 useEffect 處理
   };
 
   return (
