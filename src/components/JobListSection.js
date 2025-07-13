@@ -52,7 +52,7 @@ function JobDetailDialog({ open, jobId, onClose }) {
               {job.companyName} {job.jobTitle}
             </Typography>
             <Box sx={{ display: "flex", gap: 1, mb: 2 }}>
-              {(job.companyPhoto || []).slice(0, 3).map((url, idx) => (
+              {(job.companyPhoto || []).map((url, idx) => (
                 <Box
                   key={idx}
                   component="img"
