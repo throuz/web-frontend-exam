@@ -43,7 +43,7 @@ const MainPage = () => {
   });
 
   // 眼珠移動範圍（px）
-  const EYE_MOVE = { x: 8, y: 8 };
+  const EYE_MOVE = { x: 4, y: 4 };
 
   useEffect(() => {
     const handleMouseMove = (e) => {
@@ -142,7 +142,7 @@ const MainPage = () => {
         <Box
           sx={{
             position: "absolute",
-            top: { xs: 88, md: 307.82 },
+            top: { xs: 88, md: 304 },
             left: { xs: 166, md: 582.04 },
             width: { xs: 15, md: 44 },
             // backgroundImage: `url(${leftEyeImg})`,
@@ -158,7 +158,7 @@ const MainPage = () => {
         <Box
           sx={{
             position: "absolute",
-            top: { xs: 87, md: 302 },
+            top: { xs: 87, md: 300 },
             left: { xs: 210, md: 729 },
             width: { xs: 12, md: 40 },
             // backgroundImage: `url(${rightEyeImg})`,
