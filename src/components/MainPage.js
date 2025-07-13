@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useState, useEffect } from "react";
 import {
   Box,
   Typography,
@@ -36,10 +36,55 @@ const salaryOptions = [
 ];
 
 const MainPage = () => {
+  const heroRef = useRef(null);
+  const [eyeOffset, setEyeOffset] = useState({
+    left: { x: 0, y: 0 },
+    right: { x: 0, y: 0 },
+  });
+
+  // 眼珠移動範圍（px）
+  const EYE_MOVE = { x: 8, y: 8 };
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      if (!heroRef.current) return;
+      const rect = heroRef.current.getBoundingClientRect();
+      // 滑鼠座標（相對於視窗左上）
+      const mouseX = e.clientX;
+      const mouseY = e.clientY;
+      // hero 區塊中心
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      // -1~1
+      const nx = (mouseX - cx) / (rect.width / 2);
+      const ny = (mouseY - cy) / (rect.height / 2);
+      setEyeOffset({
+        left: {
+          x: Math.max(-1, Math.min(1, nx)) * EYE_MOVE.x,
+          y: Math.max(-1, Math.min(1, ny)) * EYE_MOVE.y,
+        },
+        right: {
+          x: Math.max(-1, Math.min(1, nx)) * EYE_MOVE.x,
+          y: Math.max(-1, Math.min(1, ny)) * EYE_MOVE.y,
+        },
+      });
+    };
+    const handleMouseLeave = () => {
+      setEyeOffset({ left: { x: 0, y: 0 }, right: { x: 0, y: 0 } });
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseleave", handleMouseLeave);
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseleave", handleMouseLeave);
+    };
+  }, [EYE_MOVE.x, EYE_MOVE.y]);
+
   return (
     <Box sx={{ position: "relative" }}>
       {/* Hero Section */}
       <Box
+        ref={heroRef}
         sx={{
           position: "relative",
           width: "100%",
@@ -104,6 +149,7 @@ const MainPage = () => {
             // backgroundRepeat: "no-repeat",
             // backgroundSize: "contain",
             zIndex: 3,
+            transform: `translate(${eyeOffset.left.x}px, ${eyeOffset.left.y}px)`,
           }}
           component="img"
           src={leftEyeImg}
@@ -119,6 +165,7 @@ const MainPage = () => {
             // backgroundRepeat: "no-repeat",
             // backgroundSize: "contain",
             zIndex: 3,
+            transform: `translate(${eyeOffset.right.x}px, ${eyeOffset.right.y}px)`,
           }}
           component="img"
           src={rightEyeImg}
