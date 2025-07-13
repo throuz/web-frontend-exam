@@ -62,12 +62,23 @@ function Carousel({
   const handleDragEnd = () => {
     if (!isDragging) return;
     setIsDragging(false);
-    if (Math.abs(dragOffset) > 40 && realLen > visibleCount) {
-      if (dragOffset < 0 && current < realLen - 1) {
-        setCurrent((prev) => Math.min(prev + 1, realLen - 1));
-      } else if (dragOffset > 0 && current > 0) {
-        setCurrent((prev) => Math.max(prev - 1, 0));
+    // 拖動結束時根據實際 translateX + dragOffset 精準吸附
+    if (realLen > visibleCount) {
+      // 拖動後的 translateX
+      const translate = getTranslateX(); // 已包含 dragOffset
+      const viewCenter = containerWidth / 2;
+      let minDist = Infinity;
+      let targetIndex = 0;
+      for (let i = 0; i < realLen; i++) {
+        // 圖片中心在可見區域的座標
+        const imgCenter = i * (imgWidth + gap) + imgWidth / 2 + translate;
+        const dist = Math.abs(imgCenter - viewCenter);
+        if (dist < minDist) {
+          minDist = dist;
+          targetIndex = i;
+        }
       }
+      setCurrent(targetIndex);
     }
     setDragOffset(0);
   };
