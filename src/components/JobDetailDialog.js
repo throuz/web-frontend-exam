@@ -73,13 +73,7 @@ function JobDetailDialog({ open, jobId, onClose }) {
               </Typography>
             </Stack>
             {/* Carousel 共用組件 */}
-            <Carousel
-              images={job.companyPhoto || []}
-              width={250}
-              height={150}
-              autoPlay
-              showDots
-            />
+            <Carousel images={job.companyPhoto || []} autoPlay showDots />
             <Stack spacing={1}>
               <Typography
                 sx={{
