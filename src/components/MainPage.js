@@ -142,7 +142,8 @@ const MainPage = () => {
             sx={{
               minHeight: 280,
               bgcolor: (theme) => theme.palette.gray[100],
-              borderRadius: 1,
+              border: (theme) => `1px solid ${theme.palette.gray[500]}`,
+              borderRadius: 0.75,
               p: 3,
               display: "flex",
               alignItems: "center",
