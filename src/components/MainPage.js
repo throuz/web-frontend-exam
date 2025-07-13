@@ -37,7 +37,7 @@ const salaryOptions = [
 
 const MainPage = () => {
   return (
-    <Box>
+    <Box sx={{ position: "relative" }}>
       {/* Hero Section */}
       <Box
         sx={{
