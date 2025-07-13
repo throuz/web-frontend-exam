@@ -1,15 +1,14 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useLayoutEffect } from "react";
 import { Box } from "@mui/material";
 
 function Carousel({
   images = [],
-  width = "100%",
-  height = 150,
   autoPlay = true,
   interval = 3000,
   showDots = true,
 }) {
   const [current, setCurrent] = useState(0);
+  const [containerWidth, setContainerWidth] = useState(0);
   const autoPlayRef = useRef();
   const dragRef = useRef();
   const startX = useRef(0);
@@ -27,6 +26,16 @@ function Carousel({
     return [images[realLen - 1], ...images, images[0]];
   };
   const virtualPhotos = getVirtualPhotos();
+
+  // 監聽 container 寬度
+  useLayoutEffect(() => {
+    const updateWidth = () => {
+      if (dragRef.current) setContainerWidth(dragRef.current.offsetWidth);
+    };
+    updateWidth();
+    window.addEventListener("resize", updateWidth);
+    return () => window.removeEventListener("resize", updateWidth);
+  }, []);
 
   // 處理無縫切換
   useEffect(() => {
@@ -73,21 +82,19 @@ function Carousel({
   // Dots click
   const handleDotClick = (idx) => setCurrent(idx);
 
-  // 計算 carousel translateX
+  // 置中偏移量
   const getTranslateX = () => {
     if (realLen <= 1) return 0;
-    // 置中顯示：外層寬度-圖片寬度/2
-    const container = dragRef.current;
-    const containerWidth = container ? container.offsetWidth : 0;
-    const offset = (containerWidth - imgWidth) / 2;
-    return -((current + 1) * (imgWidth + gap)) + offset + dragOffset;
+    const centerOffset = (containerWidth - imgWidth) / 2;
+    // 讓 current+1 的那張置中
+    return -((current + 1) * (imgWidth + gap)) + centerOffset + dragOffset;
   };
 
   return (
     <Box
       sx={{
         position: "relative",
-        width,
+        width: "100%",
         height: imgHeight,
         mb: 2,
         mx: "auto",
@@ -115,6 +122,7 @@ function Carousel({
               : "transform 0.4s cubic-bezier(.4,0,.2,1)",
           transform: `translateX(${getTranslateX()}px)`,
           gap: `${gap}px`,
+          willChange: "transform",
         }}
       >
         {virtualPhotos.map((url, idx) => (
