@@ -8,5 +8,5 @@ html,
 
 body {
   margin: 0;
-  background: linear-gradient(#5c5c5c, #868686);
+  background: linear-gradient(to right, #868686, #5c5c5c);
 }
