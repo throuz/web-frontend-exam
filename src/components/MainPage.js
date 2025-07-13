@@ -50,23 +50,21 @@ const MainPage = () => {
       >
         <Paper elevation={1} sx={{ borderRadius: 2, p: 3 }}>
           {/* Search Form */}
-          <Stack direction="row" alignItems="center" spacing={1} mb={2}>
+          <Stack direction="row" alignItems="center" spacing={1.5} mb={2.5}>
             <Box
               component="span"
               sx={{
-                width: 8,
-                height: 8,
+                width: 4,
+                height: 16,
                 bgcolor: (theme) => theme.palette.orange[700],
-                borderRadius: "50%",
-                mr: 1,
-                display: "inline-block",
+                borderRadius: 4,
               }}
             />
             <Typography
               sx={{
                 fontWeight: 700,
-                fontSize: (theme) => theme.typography.body4,
-                color: (theme) => theme.palette.gray[1100],
+                fontSize: (theme) => theme.typography.body5,
+                color: (theme) => theme.palette.gray[1000],
               }}
             >
               適合前端工程師的好工作
