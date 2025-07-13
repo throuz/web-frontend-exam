@@ -1,5 +1,11 @@
 import React from "react";
-import { Box, Typography, Grid, Pagination } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Grid,
+  Pagination,
+  CircularProgress,
+} from "@mui/material";
 import JobCard from "./JobCard";
 
 const JobListSection = ({ jobList, loading, total, page, onPageChange }) => {
@@ -18,38 +24,7 @@ const JobListSection = ({ jobList, loading, total, page, onPageChange }) => {
           justifyContent: "center",
         }}
       >
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            width: "100%",
-          }}
-        >
-          <span style={{ height: 32 }} />
-          <svg width="40" height="40" viewBox="0 0 40 40" style={{ margin: 8 }}>
-            <circle
-              cx="20"
-              cy="20"
-              r="18"
-              stroke="#FF9800"
-              strokeWidth="4"
-              fill="none"
-              strokeDasharray="113"
-              strokeDashoffset="60"
-              strokeLinecap="round"
-            >
-              <animateTransform
-                attributeName="transform"
-                type="rotate"
-                from="0 20 20"
-                to="360 20 20"
-                dur="1s"
-                repeatCount="indefinite"
-              />
-            </circle>
-          </svg>
-        </Box>
+        <CircularProgress color="warning" />
       </Box>
     );
   }
