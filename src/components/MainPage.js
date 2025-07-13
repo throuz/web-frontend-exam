@@ -7,29 +7,58 @@ const MainPage = () => {
   const [educationOptions, setEducationOptions] = useState([]);
   const [salaryOptions, setSalaryOptions] = useState([]);
   const [jobList, setJobList] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/v1/educationLevelList")
-      .then((res) => res.json())
-      .then((data) =>
-        setEducationOptions([
+    let educationData = [];
+    let salaryData = [];
+    let jobsData = [];
+    setLoading(true);
+    Promise.all([
+      fetch("/api/v1/educationLevelList").then((res) => res.json()),
+      fetch("/api/v1/salaryLevelList").then((res) => res.json()),
+      fetch("/api/v1/jobs").then((res) => res.json()),
+    ])
+      .then(([education, salary, jobs]) => {
+        educationData = [
           { label: "不限", value: "" },
-          ...data.map((item) => ({ label: item.label, value: item.id })),
-        ])
-      )
-      .catch(() => setEducationOptions([{ label: "不限", value: "" }]));
-    fetch("/api/v1/salaryLevelList")
-      .then((res) => res.json())
-      .then((data) =>
-        setSalaryOptions([
+          ...education.map((item) => ({ label: item.label, value: item.id })),
+        ];
+        salaryData = [
           { label: "不限", value: "" },
-          ...data.map((item) => ({ label: item.label, value: item.id })),
-        ])
-      )
-      .catch(() => setSalaryOptions([{ label: "不限", value: "" }]));
-    fetch("/api/v1/jobs")
-      .then((res) => res.json())
-      .then((data) => setJobList(data.data || []));
+          ...salary.map((item) => ({ label: item.label, value: item.id })),
+        ];
+        jobsData = jobs.data || [];
+
+        // 建立 id->label 對照表
+        const eduMap = Object.fromEntries(
+          educationData
+            .filter((e) => e.value !== "")
+            .map((e) => [e.value, e.label])
+        );
+        const salMap = Object.fromEntries(
+          salaryData
+            .filter((s) => s.value !== "")
+            .map((s) => [s.value, s.label])
+        );
+
+        // 對 jobList 做 mapping
+        const mappedJobs = jobsData.map((job) => ({
+          ...job,
+          educationLabel: eduMap[job.educationId] || "學歷",
+          salaryLabel: salMap[job.salaryId] || "薪水範圍",
+        }));
+
+        setEducationOptions(educationData);
+        setSalaryOptions(salaryData);
+        setJobList(mappedJobs);
+      })
+      .catch(() => {
+        setEducationOptions([{ label: "不限", value: "" }]);
+        setSalaryOptions([{ label: "不限", value: "" }]);
+        setJobList([]);
+      })
+      .finally(() => setLoading(false));
   }, []);
 
   return (
