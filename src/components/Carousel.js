@@ -29,11 +29,8 @@ function Carousel({
     return () => window.removeEventListener("resize", updateWidth);
   }, []);
 
-  // 計算同時可見圖片數
-  const visibleCount = Math.max(
-    1,
-    Math.floor((containerWidth + gap) / (imgWidth + gap))
-  );
+  // 計算可見圖片數（可為小數）
+  const visibleCount = Math.max(1, (containerWidth + gap) / (imgWidth + gap));
   // 最後一頁的起始 index
   const lastPageStart = Math.max(0, realLen - visibleCount);
 
@@ -78,9 +75,11 @@ function Carousel({
   // 計算 translateX
   const getTranslateX = () => {
     if (realLen <= visibleCount) return 0;
-    // 若 current < lastPageStart，左對齊；否則靠右對齊
+    // 若 current < lastPageStart，左對齊；否則靠右對齊（最後一張貼齊最右側）
+    const maxTranslate = realLen * (imgWidth + gap) - gap - containerWidth;
     const leftIndex = current < lastPageStart ? current : lastPageStart;
-    return -(leftIndex * (imgWidth + gap)) + dragOffset;
+    const translate = leftIndex * (imgWidth + gap);
+    return -Math.min(translate, maxTranslate) + dragOffset;
   };
 
   return (
