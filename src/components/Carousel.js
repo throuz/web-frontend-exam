@@ -83,65 +83,62 @@ function Carousel({
   };
 
   return (
-    <Box
-      sx={{
-        position: "relative",
-        width: "100%",
-        height: imgHeight,
-        mb: 2,
-        mx: "auto",
-        overflow: "hidden",
-        borderRadius: 1,
-        bgcolor: (theme) => theme.palette.gray[200],
-      }}
-      ref={dragRef}
-      onMouseDown={handleDragStart}
-      onMouseMove={handleDragMove}
-      onMouseUp={handleDragEnd}
-      onMouseLeave={handleDragEnd}
-      onTouchStart={handleDragStart}
-      onTouchMove={handleDragMove}
-      onTouchEnd={handleDragEnd}
-      tabIndex={-1}
-    >
+    <Box>
       <Box
         sx={{
-          display: "flex",
+          position: "relative",
+          width: "100%",
           height: imgHeight,
-          transition: isDragging.current
-            ? "none"
-            : "transform 0.4s cubic-bezier(.4,0,.2,1)",
-          transform: `translateX(${getTranslateX()}px)`,
-          gap: `${gap}px`,
-          willChange: "transform",
+          mx: "auto",
+          overflow: "hidden",
+          borderRadius: 1,
         }}
+        ref={dragRef}
+        onMouseDown={handleDragStart}
+        onMouseMove={handleDragMove}
+        onMouseUp={handleDragEnd}
+        onMouseLeave={handleDragEnd}
+        onTouchStart={handleDragStart}
+        onTouchMove={handleDragMove}
+        onTouchEnd={handleDragEnd}
+        tabIndex={-1}
       >
-        {images.map((url, idx) => (
-          <Box
-            key={idx}
-            component="img"
-            src={url}
-            sx={{
-              width: imgWidth,
-              height: imgHeight,
-              objectFit: "cover",
-              borderRadius: 1,
-              flexShrink: 0,
-              userSelect: "none",
-              pointerEvents: "none",
-            }}
-            alt="carousel-img"
-            draggable={false}
-          />
-        ))}
+        <Box
+          sx={{
+            display: "flex",
+            height: imgHeight,
+            transition: isDragging.current
+              ? "none"
+              : "transform 0.4s cubic-bezier(.4,0,.2,1)",
+            transform: `translateX(${getTranslateX()}px)`,
+            gap: `${gap}px`,
+            willChange: "transform",
+          }}
+        >
+          {images.map((url, idx) => (
+            <Box
+              key={idx}
+              component="img"
+              src={url}
+              sx={{
+                width: imgWidth,
+                height: imgHeight,
+                objectFit: "cover",
+                flexShrink: 0,
+                userSelect: "none",
+                pointerEvents: "none",
+              }}
+              alt="carousel-img"
+              draggable={false}
+            />
+          ))}
+        </Box>
       </Box>
-      {/* Dots */}
+      {/* Dots區塊，正常文流，與圖片間距10px */}
       {showDots && (
         <Box
           sx={{
-            position: "absolute",
-            bottom: 4,
-            left: 0,
+            mt: "10px",
             width: "100%",
             display: "flex",
             justifyContent: "center",
