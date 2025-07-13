@@ -145,10 +145,9 @@ const MainPage = () => {
         sx={{
           position: "absolute",
           left: "50%",
-          top: { xs: 180, md: 600 },
+          top: { xs: 238, md: 700 },
           transform: "translateX(-50%)",
           width: "100%",
-          maxWidth: 1200,
           zIndex: 20,
           px: 2,
         }}
