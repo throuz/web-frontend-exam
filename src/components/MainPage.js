@@ -149,7 +149,9 @@ const MainPage = () => {
           transform: "translateX(-50%)",
           width: "100%",
           zIndex: 20,
-          px: 2,
+          px: 3.5,
+          pb: 3.5,
+          boxSizing: "border-box",
         }}
       >
         <Paper elevation={1} sx={{ borderRadius: 2, p: 3 }}>
