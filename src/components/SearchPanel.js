@@ -148,7 +148,7 @@ const SearchPanel = ({ educationOptions, salaryOptions, jobList }) => {
             </Typography>
           ) : (
             <>
-              <Grid container spacing={3} mb={2}>
+              <Grid container spacing={2.25} mb={1.5}>
                 {pagedJobs.map((job, idx) => (
                   <Grid item xs={12} md={4} key={job.id || idx}>
                     <JobCard
@@ -165,7 +165,6 @@ const SearchPanel = ({ educationOptions, salaryOptions, jobList }) => {
                 count={totalPages}
                 page={page}
                 onChange={(_, value) => setPage(value)}
-                sx={{ mt: 2, mb: 1 }}
               />
             </>
           )}
