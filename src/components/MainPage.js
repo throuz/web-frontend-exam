@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React from "react";
 import {
   Box,
   Typography,
@@ -8,12 +8,7 @@ import {
   Paper,
   Autocomplete,
 } from "@mui/material";
-import bgImg from "../images/background.jpg";
-import characterWhiteImg from "../images/character-white.png";
-import characterImg from "../images/character.png";
-import leftEyeImg from "../images/left-eye.png";
-import rightEyeImg from "../images/right-eye.png";
-import logoImg from "../images/logo.png";
+import HeroSection from "./HeroSection";
 
 const educationOptions = [
   { label: "不限", value: "" },
@@ -36,157 +31,9 @@ const salaryOptions = [
 ];
 
 const MainPage = () => {
-  const heroRef = useRef(null);
-  const [eyeOffset, setEyeOffset] = useState({
-    left: { x: 0, y: 0 },
-    right: { x: 0, y: 0 },
-  });
-
-  // 眼珠移動範圍（px）
-  const EYE_MOVE = { x: 4, y: 4 };
-
-  useEffect(() => {
-    const handleMouseMove = (e) => {
-      if (!heroRef.current) return;
-      const rect = heroRef.current.getBoundingClientRect();
-      // 滑鼠座標（相對於視窗左上）
-      const mouseX = e.clientX;
-      const mouseY = e.clientY;
-      // hero 區塊中心
-      const cx = rect.left + rect.width / 2;
-      const cy = rect.top + rect.height / 2;
-      // -1~1
-      const nx = (mouseX - cx) / (rect.width / 2);
-      const ny = (mouseY - cy) / (rect.height / 2);
-      setEyeOffset({
-        left: {
-          x: Math.max(-1, Math.min(1, nx)) * EYE_MOVE.x,
-          y: Math.max(-1, Math.min(1, ny)) * EYE_MOVE.y,
-        },
-        right: {
-          x: Math.max(-1, Math.min(1, nx)) * EYE_MOVE.x,
-          y: Math.max(-1, Math.min(1, ny)) * EYE_MOVE.y,
-        },
-      });
-    };
-    const handleMouseLeave = () => {
-      setEyeOffset({ left: { x: 0, y: 0 }, right: { x: 0, y: 0 } });
-    };
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mouseleave", handleMouseLeave);
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mouseleave", handleMouseLeave);
-    };
-  }, [EYE_MOVE.x, EYE_MOVE.y]);
-
   return (
     <Box sx={{ position: "relative" }}>
-      {/* Hero Section */}
-      <Box
-        ref={heroRef}
-        sx={{
-          position: "relative",
-          width: "100%",
-          height: { xs: 238, md: 823 },
-          overflow: "hidden",
-        }}
-      >
-        {/* background.jpg */}
-        <Box
-          sx={{
-            position: "absolute",
-            inset: 0,
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            objectPosition: "right bottom",
-            zIndex: 1,
-          }}
-          component="img"
-          src={bgImg}
-        />
-        {/* character-white.png */}
-        <Box
-          sx={{
-            position: "absolute",
-            left: 0,
-            bottom: 0,
-            height: "100%",
-            // backgroundImage: `url(${characterWhiteImg})`,
-            // backgroundRepeat: "no-repeat",
-            // backgroundSize: "contain",
-            // backgroundPosition: "left bottom",
-            zIndex: 2,
-          }}
-          component="img"
-          src={characterWhiteImg}
-        />
-        {/* character.png */}
-        <Box
-          sx={{
-            position: "absolute",
-            left: 0,
-            bottom: 0,
-            height: "100%",
-            // backgroundImage: `url(${characterImg})`,
-            // backgroundRepeat: "no-repeat",
-            // backgroundSize: "contain",
-            // backgroundPosition: "left bottom",
-            zIndex: 4,
-          }}
-          component="img"
-          src={characterImg}
-        />
-        {/* left-eye.png */}
-        <Box
-          sx={{
-            position: "absolute",
-            top: { xs: 88, md: 304 },
-            left: { xs: 166, md: 582.04 },
-            width: { xs: 15, md: 44 },
-            // backgroundImage: `url(${leftEyeImg})`,
-            // backgroundRepeat: "no-repeat",
-            // backgroundSize: "contain",
-            zIndex: 3,
-            transform: `translate(${eyeOffset.left.x}px, ${eyeOffset.left.y}px)`,
-          }}
-          component="img"
-          src={leftEyeImg}
-        />
-        {/* right-eye.png */}
-        <Box
-          sx={{
-            position: "absolute",
-            top: { xs: 87, md: 300 },
-            left: { xs: 210, md: 729 },
-            width: { xs: 12, md: 40 },
-            // backgroundImage: `url(${rightEyeImg})`,
-            // backgroundRepeat: "no-repeat",
-            // backgroundSize: "contain",
-            zIndex: 3,
-            transform: `translate(${eyeOffset.right.x}px, ${eyeOffset.right.y}px)`,
-          }}
-          component="img"
-          src={rightEyeImg}
-        />
-        {/* logo.png */}
-        <Box
-          sx={{
-            position: "absolute",
-            top: { xs: 133, md: 350 },
-            right: { xs: 11, md: 83 },
-            width: { xs: 137, md: 540 },
-            // backgroundImage: `url(${logoImg})`,
-            // backgroundRepeat: "no-repeat",
-            // backgroundSize: "contain",
-            // backgroundPosition: "right top",
-            zIndex: 2,
-          }}
-          component="img"
-          src={logoImg}
-        />
-      </Box>
+      <HeroSection />
       {/* Main Card 浮在圖片上方 */}
       <Box
         sx={{
