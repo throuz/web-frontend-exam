@@ -53,9 +53,9 @@ const MainPage = () => {
             position: "absolute",
             inset: 0,
             width: "100%",
-            // backgroundImage: `url(${bgImg})`,
-            // backgroundSize: "cover",
-            // backgroundPosition: "center",
+            height: "100%",
+            objectFit: "cover",
+            objectPosition: "right bottom",
             zIndex: 1,
           }}
           component="img"
