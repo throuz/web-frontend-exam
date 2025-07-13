@@ -153,15 +153,15 @@ function Carousel({
               key={idx}
               onClick={() => handleDotClick(idx)}
               sx={{
-                width: 8,
-                height: 8,
-                borderRadius: "50%",
+                width: idx === current ? 24 : 6,
+                height: 6,
+                borderRadius: 3,
                 bgcolor:
                   idx === current
-                    ? (theme) => theme.palette.orange[600]
-                    : (theme) => theme.palette.gray[400],
+                    ? (theme) => theme.palette.orange[700]
+                    : (theme) => theme.palette.gray[500],
                 cursor: "pointer",
-                transition: "background 0.2s",
+                transition: "background 0.2s, width 0.2s",
               }}
             />
           ))}
