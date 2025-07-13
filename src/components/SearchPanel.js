@@ -124,20 +124,20 @@ const SearchPanel = ({ educationOptions, salaryOptions, jobList }) => {
           </Box>
         </Stack>
         {/* Data Section */}
-        <Box
-          sx={{
-            minHeight: 280,
-            bgcolor: (theme) => theme.palette.gray[100],
-            border: (theme) => `1px solid ${theme.palette.gray[500]}`,
-            borderRadius: 0.75,
-            p: 3,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          {!jobList || jobList.length === 0 ? (
+        {!jobList || jobList.length === 0 ? (
+          <Box
+            sx={{
+              minHeight: 280,
+              bgcolor: (theme) => theme.palette.gray[100],
+              border: (theme) => `1px solid ${theme.palette.gray[500]}`,
+              borderRadius: 0.75,
+              p: 3,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
             <Typography
               sx={{
                 color: (theme) => theme.palette.gray[700],
@@ -146,29 +146,33 @@ const SearchPanel = ({ educationOptions, salaryOptions, jobList }) => {
             >
               無資料
             </Typography>
-          ) : (
-            <>
-              <Grid container spacing={2.25} mb={1.5}>
-                {pagedJobs.map((job, idx) => (
-                  <Grid item xs={12} md={4} key={job.id || idx}>
-                    <JobCard
-                      companyName={job.companyName}
-                      jobTitle={job.jobTitle}
-                      education={job.educationLabel || "學歷"}
-                      salary={job.salaryLabel || "薪水範圍"}
-                      preview={job.preview}
-                    />
-                  </Grid>
-                ))}
-              </Grid>
-              <Pagination
-                count={totalPages}
-                page={page}
-                onChange={(_, value) => setPage(value)}
-              />
-            </>
-          )}
-        </Box>
+          </Box>
+        ) : (
+          <>
+            <Grid container spacing={2.25} mb={1.5}>
+              {pagedJobs.map((job, idx) => (
+                <Grid item xs={12} md={4} key={job.id || idx}>
+                  <JobCard
+                    companyName={job.companyName}
+                    jobTitle={job.jobTitle}
+                    education={job.educationLabel || "學歷"}
+                    salary={job.salaryLabel || "薪水範圍"}
+                    preview={job.preview}
+                  />
+                </Grid>
+              ))}
+            </Grid>
+            <Pagination
+              count={totalPages}
+              page={page}
+              onChange={(_, value) => setPage(value)}
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+              }}
+            />
+          </>
+        )}
       </Paper>
     </Box>
   );
