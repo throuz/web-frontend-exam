@@ -34,21 +34,20 @@ function Carousel({
     1,
     Math.floor((containerWidth + gap) / (imgWidth + gap))
   );
-  // 最大可滾動 index
-  const maxScrollIndex = Math.max(0, realLen - visibleCount);
+  // 最後一頁的起始 index
+  const lastPageStart = Math.max(0, realLen - visibleCount);
 
   // Auto play
   useEffect(() => {
     if (!autoPlay || realLen <= 1) return;
     autoPlayRef.current = setInterval(() => {
       setCurrent((prev) => {
-        // 若已到最後一頁，則回到 0
-        if (prev >= maxScrollIndex) return 0;
+        if (prev >= realLen - 1) return 0;
         return prev + 1;
       });
     }, interval);
     return () => clearInterval(autoPlayRef.current);
-  }, [autoPlay, interval, realLen, maxScrollIndex]);
+  }, [autoPlay, interval, realLen]);
 
   // Drag/Swipe handlers
   const handleDragStart = (e) => {
@@ -64,8 +63,8 @@ function Carousel({
     if (!isDragging.current) return;
     isDragging.current = false;
     if (Math.abs(dragOffset) > 40 && realLen > visibleCount) {
-      if (dragOffset < 0 && current < maxScrollIndex) {
-        setCurrent((prev) => Math.min(prev + 1, maxScrollIndex));
+      if (dragOffset < 0 && current < realLen - 1) {
+        setCurrent((prev) => Math.min(prev + 1, realLen - 1));
       } else if (dragOffset > 0 && current > 0) {
         setCurrent((prev) => Math.max(prev - 1, 0));
       }
@@ -74,16 +73,14 @@ function Carousel({
   };
 
   // Dots click
-  const handleDotClick = (idx) => {
-    // 若點擊的 index 超過 maxScrollIndex，則 scroll 到最後一頁
-    setCurrent(Math.min(idx, maxScrollIndex));
-  };
+  const handleDotClick = (idx) => setCurrent(idx);
 
   // 計算 translateX
   const getTranslateX = () => {
     if (realLen <= visibleCount) return 0;
-    // 左對齊，current 代表最左側 index
-    return -(current * (imgWidth + gap)) + dragOffset;
+    // 若 current < lastPageStart，左對齊；否則靠右對齊
+    const leftIndex = current < lastPageStart ? current : lastPageStart;
+    return -(leftIndex * (imgWidth + gap)) + dragOffset;
   };
 
   return (
