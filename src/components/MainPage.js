@@ -72,8 +72,8 @@ const MainPage = () => {
           </Stack>
           <Stack
             direction={{ xs: "column", md: "row" }}
-            spacing={2}
-            mb={2}
+            spacing={2.25}
+            mb={2.5}
             alignItems="stretch"
           >
             <Box sx={{ flex: 2 }}>
@@ -120,11 +120,11 @@ const MainPage = () => {
               <Button
                 variant="contained"
                 sx={{
-                  bgcolor: (theme) => theme.palette.gray[500],
+                  bgcolor: (theme) => theme.palette.gray[700],
                   color: (theme) => theme.palette.gray[100],
                   fontWeight: 700,
                   fontSize: (theme) => theme.typography.body3,
-                  borderRadius: 1,
+                  borderRadius: 0.5,
                   boxShadow: "none",
                   height: 56,
                   "&:hover": {
