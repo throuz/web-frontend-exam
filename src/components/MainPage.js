@@ -128,7 +128,7 @@ const MainPage = () => {
           sx={{
             position: "absolute",
             top: { xs: 133, md: 350 },
-            left: { xs: 227, md: 817 },
+            right: { xs: 11, md: 83 },
             width: { xs: 137, md: 540 },
             // backgroundImage: `url(${logoImg})`,
             // backgroundRepeat: "no-repeat",
