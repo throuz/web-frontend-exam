@@ -31,8 +31,10 @@ function Carousel({
 
   // 計算可見圖片數（可為小數）
   const visibleCount = Math.max(1, (containerWidth + gap) / (imgWidth + gap));
-  // 最後一頁的起始 index
-  const lastPageStart = Math.max(0, realLen - visibleCount);
+  const maxTranslate = Math.max(
+    0,
+    realLen * (imgWidth + gap) - gap - containerWidth
+  );
 
   // Auto play
   useEffect(() => {
@@ -72,18 +74,26 @@ function Carousel({
   // Dots click
   const handleDotClick = (idx) => setCurrent(idx);
 
-  // 計算 translateX
+  // 計算 translateX，確保左右貼齊
   const getTranslateX = () => {
     if (realLen <= visibleCount) return 0;
-    // 若 current < lastPageStart，左對齊；否則靠右對齊（最後一張貼齊最右側）
-    const maxTranslate = realLen * (imgWidth + gap) - gap - containerWidth;
-    const leftIndex = current < lastPageStart ? current : lastPageStart;
-    const translate = leftIndex * (imgWidth + gap);
-    return -Math.min(translate, maxTranslate) + dragOffset;
+    // 讓 current 盡量置中，但不超過邊界
+    const centerOffset = (containerWidth - imgWidth) / 2;
+    let translate = -(current * (imgWidth + gap)) + centerOffset;
+    // 左邊界
+    if (translate > 0) translate = 0;
+    // 右邊界
+    if (translate < -maxTranslate) translate = -maxTranslate;
+    return translate + dragOffset;
   };
 
   return (
-    <Box>
+    <Box
+      sx={{
+        width: "100%",
+        mb: 2,
+      }}
+    >
       <Box
         sx={{
           position: "relative",
@@ -92,6 +102,7 @@ function Carousel({
           mx: "auto",
           overflow: "hidden",
           borderRadius: 1,
+          bgcolor: (theme) => theme.palette.gray[200],
         }}
         ref={dragRef}
         onMouseDown={handleDragStart}
@@ -124,6 +135,7 @@ function Carousel({
                 width: imgWidth,
                 height: imgHeight,
                 objectFit: "cover",
+                borderRadius: 1,
                 flexShrink: 0,
                 userSelect: "none",
                 pointerEvents: "none",
