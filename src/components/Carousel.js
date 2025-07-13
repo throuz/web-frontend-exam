@@ -19,14 +19,6 @@ function Carousel({
   const imgHeight = 150;
   const gap = 8; // px
 
-  // 虛擬化圖片陣列（前後各補一張）
-  const getVirtualPhotos = () => {
-    if (realLen === 0) return [];
-    if (realLen === 1) return images;
-    return [images[realLen - 1], ...images, images[0]];
-  };
-  const virtualPhotos = getVirtualPhotos();
-
   // 監聽 container 寬度
   useLayoutEffect(() => {
     const updateWidth = () => {
@@ -37,24 +29,26 @@ function Carousel({
     return () => window.removeEventListener("resize", updateWidth);
   }, []);
 
-  // 處理無縫切換
-  useEffect(() => {
-    if (realLen <= 1) return;
-    if (current === -1) {
-      setTimeout(() => setCurrent(realLen - 1), 20);
-    } else if (current === realLen) {
-      setTimeout(() => setCurrent(0), 20);
-    }
-  }, [current, realLen]);
+  // 計算同時可見圖片數
+  const visibleCount = Math.max(
+    1,
+    Math.floor((containerWidth + gap) / (imgWidth + gap))
+  );
+  // 最大可滾動 index
+  const maxScrollIndex = Math.max(0, realLen - visibleCount);
 
   // Auto play
   useEffect(() => {
     if (!autoPlay || realLen <= 1) return;
     autoPlayRef.current = setInterval(() => {
-      setCurrent((prev) => prev + 1);
+      setCurrent((prev) => {
+        // 若已到最後一頁，則回到 0
+        if (prev >= maxScrollIndex) return 0;
+        return prev + 1;
+      });
     }, interval);
     return () => clearInterval(autoPlayRef.current);
-  }, [autoPlay, interval, realLen]);
+  }, [autoPlay, interval, realLen, maxScrollIndex]);
 
   // Drag/Swipe handlers
   const handleDragStart = (e) => {
@@ -69,25 +63,27 @@ function Carousel({
   const handleDragEnd = () => {
     if (!isDragging.current) return;
     isDragging.current = false;
-    if (Math.abs(dragOffset) > 40 && realLen > 1) {
-      if (dragOffset < 0) {
-        setCurrent((prev) => prev + 1);
-      } else {
-        setCurrent((prev) => prev - 1);
+    if (Math.abs(dragOffset) > 40 && realLen > visibleCount) {
+      if (dragOffset < 0 && current < maxScrollIndex) {
+        setCurrent((prev) => Math.min(prev + 1, maxScrollIndex));
+      } else if (dragOffset > 0 && current > 0) {
+        setCurrent((prev) => Math.max(prev - 1, 0));
       }
     }
     setDragOffset(0);
   };
 
   // Dots click
-  const handleDotClick = (idx) => setCurrent(idx);
+  const handleDotClick = (idx) => {
+    // 若點擊的 index 超過 maxScrollIndex，則 scroll 到最後一頁
+    setCurrent(Math.min(idx, maxScrollIndex));
+  };
 
-  // 置中偏移量
+  // 計算 translateX
   const getTranslateX = () => {
-    if (realLen <= 1) return 0;
-    const centerOffset = (containerWidth - imgWidth) / 2;
-    // 讓 current+1 的那張置中
-    return -((current + 1) * (imgWidth + gap)) + centerOffset + dragOffset;
+    if (realLen <= visibleCount) return 0;
+    // 左對齊，current 代表最左側 index
+    return -(current * (imgWidth + gap)) + dragOffset;
   };
 
   return (
@@ -116,16 +112,15 @@ function Carousel({
         sx={{
           display: "flex",
           height: imgHeight,
-          transition:
-            isDragging.current || current === -1 || current === realLen
-              ? "none"
-              : "transform 0.4s cubic-bezier(.4,0,.2,1)",
+          transition: isDragging.current
+            ? "none"
+            : "transform 0.4s cubic-bezier(.4,0,.2,1)",
           transform: `translateX(${getTranslateX()}px)`,
           gap: `${gap}px`,
           willChange: "transform",
         }}
       >
-        {virtualPhotos.map((url, idx) => (
+        {images.map((url, idx) => (
           <Box
             key={idx}
             component="img"
@@ -166,7 +161,7 @@ function Carousel({
                 height: 8,
                 borderRadius: "50%",
                 bgcolor:
-                  idx === (current < 0 ? realLen - 1 : current % realLen)
+                  idx === current
                     ? (theme) => theme.palette.orange[600]
                     : (theme) => theme.palette.gray[400],
                 cursor: "pointer",
