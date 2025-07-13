@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, CircularProgress, Paper } from "@mui/material";
+import { Box } from "@mui/material";
 import HeroSection from "./HeroSection";
 import SearchPanel from "./SearchPanel";
 
@@ -106,43 +106,17 @@ const MainPage = () => {
   return (
     <Box sx={{ position: "relative" }}>
       <HeroSection />
-      {loading ? (
-        <Box
-          sx={{
-            position: "absolute",
-            left: "50%",
-            top: { xs: 238, md: 700 },
-            transform: "translateX(-50%)",
-            width: "100%",
-            zIndex: 20,
-            px: 3.5,
-            pb: 3.5,
-            boxSizing: "border-box",
-          }}
-        >
-          <Paper elevation={1} sx={{ borderRadius: 2, p: 3, height: "60vh" }}>
-            <CircularProgress
-              sx={{
-                position: "absolute",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-              }}
-            />
-          </Paper>
-        </Box>
-      ) : (
-        <SearchPanel
-          educationOptions={educationOptions}
-          salaryOptions={salaryOptions}
-          jobList={jobList}
-          onSearch={handleSearch}
-          total={total}
-          page={page}
-          onPageChange={handlePageChange}
-          searchValues={searchValues}
-        />
-      )}
+      <SearchPanel
+        educationOptions={educationOptions}
+        salaryOptions={salaryOptions}
+        jobList={jobList}
+        onSearch={handleSearch}
+        total={total}
+        page={page}
+        onPageChange={handlePageChange}
+        searchValues={searchValues}
+        loading={loading}
+      />
     </Box>
   );
 };

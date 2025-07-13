@@ -12,6 +12,7 @@ const SearchPanel = ({
   page,
   onPageChange,
   searchValues,
+  loading,
 }) => {
   // 受控表單狀態
   const [companyName, setCompanyName] = useState(
@@ -68,7 +69,59 @@ const SearchPanel = ({
           onSearch={handleSearch}
         />
         {/* Data Section */}
-        {!jobList || jobList.length === 0 ? (
+        {loading ? (
+          <Box
+            sx={{
+              minHeight: 280,
+              bgcolor: (theme) => theme.palette.gray[100],
+              border: (theme) => `1px solid ${theme.palette.gray[500]}`,
+              borderRadius: 0.75,
+              p: 3,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                width: "100%",
+              }}
+            >
+              <span style={{ height: 32 }} />
+              <svg
+                width="40"
+                height="40"
+                viewBox="0 0 40 40"
+                style={{ margin: 8 }}
+              >
+                <circle
+                  cx="20"
+                  cy="20"
+                  r="18"
+                  stroke="#FF9800"
+                  strokeWidth="4"
+                  fill="none"
+                  strokeDasharray="113"
+                  strokeDashoffset="60"
+                  strokeLinecap="round"
+                >
+                  <animateTransform
+                    attributeName="transform"
+                    type="rotate"
+                    from="0 20 20"
+                    to="360 20 20"
+                    dur="1s"
+                    repeatCount="indefinite"
+                  />
+                </circle>
+              </svg>
+            </Box>
+          </Box>
+        ) : !jobList || jobList.length === 0 ? (
           <Box
             sx={{
               minHeight: 280,
