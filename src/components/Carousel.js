@@ -9,10 +9,10 @@ function Carousel({
 }) {
   const [current, setCurrent] = useState(0);
   const [containerWidth, setContainerWidth] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
   const autoPlayRef = useRef();
   const dragRef = useRef();
   const startX = useRef(0);
-  const isDragging = useRef(false);
   const [dragOffset, setDragOffset] = useState(0);
   const realLen = images.length;
   const imgWidth = 250;
@@ -36,9 +36,9 @@ function Carousel({
     realLen * (imgWidth + gap) - gap - containerWidth
   );
 
-  // Auto play
+  // Auto play，依 isDragging 狀態啟動/清除
   useEffect(() => {
-    if (!autoPlay || realLen <= 1) return;
+    if (!autoPlay || realLen <= 1 || isDragging) return;
     autoPlayRef.current = setInterval(() => {
       setCurrent((prev) => {
         if (prev >= realLen - 1) return 0;
@@ -46,21 +46,22 @@ function Carousel({
       });
     }, interval);
     return () => clearInterval(autoPlayRef.current);
-  }, [autoPlay, interval, realLen]);
+  }, [autoPlay, interval, realLen, isDragging]);
 
-  // Drag/Swipe handlers
+  // 拖動時暫停自動輪播，放開後重啟
   const handleDragStart = (e) => {
-    isDragging.current = true;
+    setIsDragging(true);
+    clearInterval(autoPlayRef.current);
     startX.current = e.type === "touchstart" ? e.touches[0].clientX : e.clientX;
   };
   const handleDragMove = (e) => {
-    if (!isDragging.current) return;
+    if (!isDragging) return;
     const x = e.type === "touchmove" ? e.touches[0].clientX : e.clientX;
     setDragOffset(x - startX.current);
   };
   const handleDragEnd = () => {
-    if (!isDragging.current) return;
-    isDragging.current = false;
+    if (!isDragging) return;
+    setIsDragging(false);
     if (Math.abs(dragOffset) > 40 && realLen > visibleCount) {
       if (dragOffset < 0 && current < realLen - 1) {
         setCurrent((prev) => Math.min(prev + 1, realLen - 1));
@@ -72,7 +73,18 @@ function Carousel({
   };
 
   // Dots click
-  const handleDotClick = (idx) => setCurrent(idx);
+  const handleDotClick = (idx) => {
+    setCurrent(idx);
+    if (autoPlay && realLen > 1) {
+      clearInterval(autoPlayRef.current);
+      autoPlayRef.current = setInterval(() => {
+        setCurrent((prev) => {
+          if (prev >= realLen - 1) return 0;
+          return prev + 1;
+        });
+      }, interval);
+    }
+  };
 
   // 計算 translateX，確保左右貼齊
   const getTranslateX = () => {
@@ -118,7 +130,7 @@ function Carousel({
           sx={{
             display: "flex",
             height: imgHeight,
-            transition: isDragging.current
+            transition: isDragging
               ? "none"
               : "transform 0.4s cubic-bezier(.4,0,.2,1)",
             transform: `translateX(${getTranslateX()}px)`,
