@@ -8,6 +8,8 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
+  DialogActions,
+  Button,
 } from "@mui/material";
 import JobCard from "./JobCard";
 
@@ -30,11 +32,15 @@ function JobDetailDialog({ open, jobId, onClose }) {
   return (
     <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
       <DialogTitle
-        sx={{ fontWeight: 700, fontSize: 20, color: "gray.1100", pb: 1 }}
+        sx={{
+          fontWeight: 700,
+          fontSize: (theme) => theme.typography.body5,
+          color: (theme) => theme.palette.gray[1000],
+        }}
       >
         詳細資訊
       </DialogTitle>
-      <DialogContent>
+      <DialogContent dividers>
         {loading ? (
           <Box
             sx={{
@@ -80,6 +86,18 @@ function JobDetailDialog({ open, jobId, onClose }) {
           </>
         ) : null}
       </DialogContent>
+      <DialogActions>
+        <Button
+          variant="text"
+          onClick={onClose}
+          sx={{
+            color: (theme) => theme.palette.gray[1000],
+            fontSize: (theme) => theme.typography.body3,
+          }}
+        >
+          關閉
+        </Button>
+      </DialogActions>
     </Dialog>
   );
 }
