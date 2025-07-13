@@ -111,12 +111,7 @@ function Carousel({
   };
 
   return (
-    <Box
-      sx={{
-        width: "100%",
-        mb: 2,
-      }}
-    >
+    <Box>
       <Box
         sx={{
           position: "relative",
@@ -125,7 +120,6 @@ function Carousel({
           mx: "auto",
           overflow: "hidden",
           borderRadius: 1,
-          bgcolor: (theme) => theme.palette.gray[200],
         }}
         ref={dragRef}
         onMouseDown={handleDragStart}
