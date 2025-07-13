@@ -12,13 +12,42 @@ import {
 } from "@mui/material";
 import JobCard from "./JobCard";
 
-const PAGE_SIZE = 6;
+const SearchPanel = ({
+  educationOptions,
+  salaryOptions,
+  jobList,
+  onSearch,
+  total,
+  page,
+  onPageChange,
+  searchValues,
+}) => {
+  // 受控表單狀態
+  const [companyName, setCompanyName] = useState(
+    searchValues?.companyName || ""
+  );
+  const [educationLevel, setEducationLevel] = useState(
+    searchValues?.educationLevel || ""
+  );
+  const [salaryLevel, setSalaryLevel] = useState(
+    searchValues?.salaryLevel || ""
+  );
 
-const SearchPanel = ({ educationOptions, salaryOptions, jobList }) => {
-  const [page, setPage] = useState(1);
-  const totalPages = Math.ceil((jobList?.length || 0) / PAGE_SIZE);
-  const pagedJobs =
-    jobList?.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE) || [];
+  // 條件搜尋
+  const handleSearch = () => {
+    onSearch &&
+      onSearch({
+        companyName,
+        educationLevel,
+        salaryLevel,
+        page: 1,
+      });
+  };
+
+  // 分頁切換
+  const handlePageChange = (_, value) => {
+    onPageChange && onPageChange(value);
+  };
 
   return (
     <Box
@@ -70,12 +99,19 @@ const SearchPanel = ({ educationOptions, salaryOptions, jobList }) => {
               variant="outlined"
               sx={{ bgcolor: (theme) => theme.palette.gray[100], height: 56 }}
               InputProps={{ sx: { height: 56 } }}
+              value={companyName}
+              onChange={(e) => setCompanyName(e.target.value)}
             />
           </Box>
           <Box sx={{ flex: 1 }}>
             <Autocomplete
               disablePortal
               options={educationOptions}
+              value={
+                educationOptions.find((opt) => opt.value === educationLevel) ||
+                null
+              }
+              onChange={(_, val) => setEducationLevel(val?.value || "")}
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -91,6 +127,10 @@ const SearchPanel = ({ educationOptions, salaryOptions, jobList }) => {
             <Autocomplete
               disablePortal
               options={salaryOptions}
+              value={
+                salaryOptions.find((opt) => opt.value === salaryLevel) || null
+              }
+              onChange={(_, val) => setSalaryLevel(val?.value || "")}
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -118,6 +158,7 @@ const SearchPanel = ({ educationOptions, salaryOptions, jobList }) => {
                 },
               }}
               fullWidth
+              onClick={handleSearch}
             >
               條件搜尋
             </Button>
@@ -150,7 +191,7 @@ const SearchPanel = ({ educationOptions, salaryOptions, jobList }) => {
         ) : (
           <>
             <Grid container spacing={2.25} mb={1.5}>
-              {pagedJobs.map((job, idx) => (
+              {jobList.map((job, idx) => (
                 <Grid item xs={12} md={4} key={job.id || idx}>
                   <JobCard
                     companyName={job.companyName}
@@ -163,9 +204,9 @@ const SearchPanel = ({ educationOptions, salaryOptions, jobList }) => {
               ))}
             </Grid>
             <Pagination
-              count={totalPages}
+              count={Math.ceil(total / 6) || 1}
               page={page}
-              onChange={(_, value) => setPage(value)}
+              onChange={handlePageChange}
               sx={{
                 display: "flex",
                 justifyContent: "center",
