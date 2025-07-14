@@ -18,6 +18,8 @@ const HeroSection = () => {
   useEffect(() => {
     const handleMouseMove = (e) => {
       if (!heroRef.current) return;
+      // 手機版不動眼球
+      if (window.innerWidth < 600) return;
       const rect = heroRef.current.getBoundingClientRect();
       const mouseX = e.clientX;
       const mouseY = e.clientY;
