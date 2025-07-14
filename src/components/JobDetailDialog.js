@@ -11,10 +11,10 @@ import {
   CircularProgress,
 } from "@mui/material";
 import Carousel from "./Carousel";
-import useJobDetail from "../hooks/useJobDetail";
+import useJobDetailQuery from "../hooks/useJobDetailQuery";
 
 function JobDetailDialog({ open, jobId, onClose }) {
-  const { data: job, loading } = useJobDetail(open ? jobId : null);
+  const { data: job, loading } = useJobDetailQuery(open ? jobId : null);
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>

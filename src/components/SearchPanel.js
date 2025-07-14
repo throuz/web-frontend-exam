@@ -3,9 +3,9 @@ import { Box, Paper } from "@mui/material";
 import SearchForm from "./SearchForm";
 import SearchSectionTitle from "./SearchSectionTitle";
 import JobListSection from "./JobListSection";
-import useEducationList from "../hooks/useEducationList";
-import useSalaryList from "../hooks/useSalaryList";
-import useJobs from "../hooks/useJobs";
+import useEducationListQuery from "../hooks/useEducationListQuery";
+import useSalaryListQuery from "../hooks/useSalaryListQuery";
+import useJobsQuery from "../hooks/useJobsQuery";
 import useJobOptions from "../hooks/useJobOptions";
 import useJobListMapping from "../hooks/useJobListMapping";
 import useQueryParams from "../hooks/useQueryParams";
@@ -21,10 +21,11 @@ const SearchPanel = () => {
   const page = query.page;
 
   // hooks 取得資料
-  const { data: educationData, loading: educationLoading } = useEducationList();
-  const { data: salaryData, loading: salaryLoading } = useSalaryList();
+  const { data: educationData, loading: educationLoading } =
+    useEducationListQuery();
+  const { data: salaryData, loading: salaryLoading } = useSalaryListQuery();
   // 直接用 query 查詢
-  const { data: jobsData, loading: jobsLoading } = useJobs({
+  const { data: jobsData, loading: jobsLoading } = useJobsQuery({
     company_name: query.companyName,
     education_level: query.educationLevel,
     salary_level: query.salaryLevel,
