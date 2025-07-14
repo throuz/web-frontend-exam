@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Box, Paper } from "@mui/material";
 import SearchForm from "./SearchForm";
 import SearchSectionTitle from "./SearchSectionTitle";
@@ -8,16 +8,26 @@ import useSalaryList from "../hooks/useSalaryList";
 import useJobs from "../hooks/useJobs";
 import useJobOptions from "../hooks/useJobOptions";
 import useJobListMapping from "../hooks/useJobListMapping";
+import useQueryParams from "../hooks/useQueryParams";
 
-const SearchPanel = ({ searchValues, setQuery, page, onPageChange }) => {
+const SearchPanel = () => {
+  // 直接在內部管理查詢參數
+  const [query, setQuery] = useQueryParams({
+    companyName: "",
+    educationLevel: "",
+    salaryLevel: "",
+    page: 1,
+  });
+  const page = query.page;
+
   // hooks 取得資料
   const { data: educationData, loading: educationLoading } = useEducationList();
   const { data: salaryData, loading: salaryLoading } = useSalaryList();
-  // 直接用 searchValues 查詢
+  // 直接用 query 查詢
   const { data: jobsData, loading: jobsLoading } = useJobs({
-    company_name: searchValues.companyName,
-    education_level: searchValues.educationLevel,
-    salary_level: searchValues.salaryLevel,
+    company_name: query.companyName,
+    education_level: query.educationLevel,
+    salary_level: query.salaryLevel,
     page,
     pre_page: window.innerWidth < 600 ? 4 : 6,
   });
@@ -42,7 +52,7 @@ const SearchPanel = ({ searchValues, setQuery, page, onPageChange }) => {
 
   // 分頁切換
   const handlePageChange = (_, value) => {
-    onPageChange && onPageChange(value);
+    setQuery({ ...query, page: value });
   };
 
   return (
@@ -64,9 +74,9 @@ const SearchPanel = ({ searchValues, setQuery, page, onPageChange }) => {
         <SearchSectionTitle />
         {/* Search Form (桌機顯示) */}
         <SearchForm
-          companyName={searchValues.companyName}
-          educationLevel={searchValues.educationLevel}
-          salaryLevel={searchValues.salaryLevel}
+          companyName={query.companyName}
+          educationLevel={query.educationLevel}
+          salaryLevel={query.salaryLevel}
           educationOptions={educationOptions}
           salaryOptions={salaryOptions}
           onSearch={handleSearch}
