@@ -1,10 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box } from "@mui/material";
 import HeroSection from "./HeroSection";
 import SearchPanel from "./SearchPanel";
-import useEducationList from "../hooks/useEducationList";
-import useSalaryList from "../hooks/useSalaryList";
-import useJobs from "../hooks/useJobs";
 
 function getQueryParams() {
   const params = new URLSearchParams(window.location.search);
@@ -36,62 +33,6 @@ const MainPage = () => {
     salaryLevel: initialQuery.salaryLevel,
   });
 
-  // hooks 取得資料
-  const {
-    data: educationData,
-    loading: educationLoading,
-    error: educationError,
-  } = useEducationList();
-  const {
-    data: salaryData,
-    loading: salaryLoading,
-    error: salaryError,
-  } = useSalaryList();
-  const {
-    data: jobsData,
-    loading: jobsLoading,
-    error: jobsError,
-  } = useJobs({
-    company_name: searchValues.companyName,
-    education_level: searchValues.educationLevel,
-    salary_level: searchValues.salaryLevel,
-    page,
-    pre_page: window.innerWidth < 600 ? 4 : 6,
-  });
-
-  // 下拉選單 options
-  const educationOptions = educationData
-    ? [
-        { label: "不限", value: "" },
-        ...educationData.map((item) => ({ label: item.label, value: item.id })),
-      ]
-    : [];
-  const salaryOptions = salaryData
-    ? [
-        { label: "不限", value: "" },
-        ...salaryData.map((item) => ({ label: item.label, value: item.id })),
-      ]
-    : [];
-
-  // 職缺列表 mapping
-  const eduMap = Object.fromEntries(
-    educationOptions
-      .filter((e) => e.value !== "")
-      .map((e) => [e.value, e.label])
-  );
-  const salMap = Object.fromEntries(
-    salaryOptions.filter((s) => s.value !== "").map((s) => [s.value, s.label])
-  );
-  const jobList = (jobsData?.data || []).map((job) => ({
-    ...job,
-    educationLabel: eduMap[job.educationId] || "學歷",
-    salaryLabel: salMap[job.salaryId] || "薪水範圍",
-  }));
-  const total = jobsData?.total || 0;
-
-  // loading 狀態
-  const loading = educationLoading || salaryLoading || jobsLoading;
-
   // 監聽搜尋條件/分頁變動時，同步 query string
   useEffect(() => {
     setQueryParams({ ...searchValues, page });
@@ -113,15 +54,10 @@ const MainPage = () => {
     <Box sx={{ position: "relative" }}>
       <HeroSection />
       <SearchPanel
-        educationOptions={educationOptions}
-        salaryOptions={salaryOptions}
-        jobList={jobList}
-        onSearch={handleSearch}
-        total={total}
         page={page}
+        onSearch={handleSearch}
         onPageChange={handlePageChange}
         searchValues={searchValues}
-        loading={loading}
       />
     </Box>
   );
