@@ -27,7 +27,7 @@ src/
   icons/              # 專案用到的 icon 資源
   App.js              # React 入口元件
   index.js            # 應用程式進入點
-  index.css            # 全域樣式、字型、背景設定
+  index.css           # 全域樣式、字型、背景設定
 ```
 
 ### 主要邏輯說明
