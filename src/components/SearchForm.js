@@ -24,7 +24,7 @@ const SearchForm = ({
     <FormControl
       component="form"
       fullWidth
-      sx={{ display: { xs: "none", sm: "block" } }}
+      sx={{ display: { xs: "none", md: "block" } }}
       onSubmit={(e) => {
         e.preventDefault();
         onSearch();
