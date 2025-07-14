@@ -9,44 +9,15 @@ import useJobs from "../hooks/useJobs";
 import useJobOptions from "../hooks/useJobOptions";
 import useJobListMapping from "../hooks/useJobListMapping";
 
-const SearchPanel = ({ onSearch, page, onPageChange, searchValues }) => {
-  // 受控表單狀態
-  const [companyName, setCompanyName] = useState(
-    searchValues?.companyName || ""
-  );
-  const [educationLevel, setEducationLevel] = useState(
-    searchValues?.educationLevel || ""
-  );
-  const [salaryLevel, setSalaryLevel] = useState(
-    searchValues?.salaryLevel || ""
-  );
-  // 新增：已提交的查詢條件
-  const [submittedValues, setSubmittedValues] = useState({
-    companyName: searchValues?.companyName || "",
-    educationLevel: searchValues?.educationLevel || "",
-    salaryLevel: searchValues?.salaryLevel || "",
-  });
-
-  // 當 searchValues 變動時同步表單狀態（如 query string 變動）
-  useEffect(() => {
-    setCompanyName(searchValues?.companyName || "");
-    setEducationLevel(searchValues?.educationLevel || "");
-    setSalaryLevel(searchValues?.salaryLevel || "");
-    setSubmittedValues({
-      companyName: searchValues?.companyName || "",
-      educationLevel: searchValues?.educationLevel || "",
-      salaryLevel: searchValues?.salaryLevel || "",
-    });
-  }, [searchValues]);
-
+const SearchPanel = ({ searchValues, setQuery, page, onPageChange }) => {
   // hooks 取得資料
   const { data: educationData, loading: educationLoading } = useEducationList();
   const { data: salaryData, loading: salaryLoading } = useSalaryList();
-  // 只根據 submittedValues 查詢
+  // 直接用 searchValues 查詢
   const { data: jobsData, loading: jobsLoading } = useJobs({
-    company_name: submittedValues.companyName,
-    education_level: submittedValues.educationLevel,
-    salary_level: submittedValues.salaryLevel,
+    company_name: searchValues.companyName,
+    education_level: searchValues.educationLevel,
+    salary_level: searchValues.salaryLevel,
     page,
     pre_page: window.innerWidth < 600 ? 4 : 6,
   });
@@ -65,20 +36,8 @@ const SearchPanel = ({ onSearch, page, onPageChange, searchValues }) => {
   const loading = educationLoading || salaryLoading || jobsLoading;
 
   // 條件搜尋
-  const handleSearch = () => {
-    setSubmittedValues({
-      companyName,
-      educationLevel,
-      salaryLevel,
-    });
-    // 通知父層重設 page
-    onSearch &&
-      onSearch({
-        companyName,
-        educationLevel,
-        salaryLevel,
-        page: 1,
-      });
+  const handleSearch = (values) => {
+    setQuery({ ...values, page: 1 });
   };
 
   // 分頁切換
@@ -105,12 +64,9 @@ const SearchPanel = ({ onSearch, page, onPageChange, searchValues }) => {
         <SearchSectionTitle />
         {/* Search Form (桌機顯示) */}
         <SearchForm
-          companyName={companyName}
-          setCompanyName={setCompanyName}
-          educationLevel={educationLevel}
-          setEducationLevel={setEducationLevel}
-          salaryLevel={salaryLevel}
-          setSalaryLevel={setSalaryLevel}
+          companyName={searchValues.companyName}
+          educationLevel={searchValues.educationLevel}
+          salaryLevel={searchValues.salaryLevel}
           educationOptions={educationOptions}
           salaryOptions={salaryOptions}
           onSearch={handleSearch}

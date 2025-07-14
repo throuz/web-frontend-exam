@@ -28,13 +28,13 @@ const MainPage = () => {
       <HeroSection />
       <SearchPanel
         page={query.page}
-        onSearch={handleSearch}
-        onPageChange={handlePageChange}
         searchValues={{
           companyName: query.companyName,
           educationLevel: query.educationLevel,
           salaryLevel: query.salaryLevel,
         }}
+        setQuery={setQuery}
+        onPageChange={handlePageChange}
       />
     </Box>
   );

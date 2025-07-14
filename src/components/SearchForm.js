@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   FormControl,
   FormGroup,
@@ -10,25 +10,44 @@ import {
 } from "@mui/material";
 
 const SearchForm = ({
-  companyName,
-  setCompanyName,
-  educationLevel,
-  setEducationLevel,
-  salaryLevel,
-  setSalaryLevel,
+  companyName: initialCompanyName = "",
+  educationLevel: initialEducationLevel = "",
+  salaryLevel: initialSalaryLevel = "",
   educationOptions,
   salaryOptions,
   onSearch,
 }) => {
+  // 本地 state 管理所有欄位
+  const [form, setForm] = useState({
+    companyName: initialCompanyName,
+    educationLevel: initialEducationLevel,
+    salaryLevel: initialSalaryLevel,
+  });
+
+  // 當外部初始值變動時同步本地 state
+  useEffect(() => {
+    setForm({
+      companyName: initialCompanyName,
+      educationLevel: initialEducationLevel,
+      salaryLevel: initialSalaryLevel,
+    });
+  }, [initialCompanyName, initialEducationLevel, initialSalaryLevel]);
+
+  const handleChange = (key, value) => {
+    setForm((prev) => ({ ...prev, [key]: value }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSearch && onSearch(form);
+  };
+
   return (
     <FormControl
       component="form"
       fullWidth
       sx={{ display: { xs: "none", md: "block" } }}
-      onSubmit={(e) => {
-        e.preventDefault();
-        onSearch();
-      }}
+      onSubmit={handleSubmit}
     >
       <FormGroup>
         <Stack
@@ -45,8 +64,8 @@ const SearchForm = ({
               variant="outlined"
               sx={{ bgcolor: (theme) => theme.palette.gray[100], height: 56 }}
               InputProps={{ sx: { height: 56 } }}
-              value={companyName}
-              onChange={(e) => setCompanyName(e.target.value)}
+              value={form.companyName}
+              onChange={(e) => handleChange("companyName", e.target.value)}
             />
           </FormControl>
           <FormControl sx={{ flex: 1 }}>
@@ -54,10 +73,13 @@ const SearchForm = ({
               disablePortal
               options={educationOptions}
               value={
-                educationOptions.find((opt) => opt.value === educationLevel) ||
-                null
+                educationOptions.find(
+                  (opt) => opt.value === form.educationLevel
+                ) || null
               }
-              onChange={(_, val) => setEducationLevel(val?.value || "")}
+              onChange={(_, val) =>
+                handleChange("educationLevel", val?.value || "")
+              }
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -74,9 +96,12 @@ const SearchForm = ({
               disablePortal
               options={salaryOptions}
               value={
-                salaryOptions.find((opt) => opt.value === salaryLevel) || null
+                salaryOptions.find((opt) => opt.value === form.salaryLevel) ||
+                null
               }
-              onChange={(_, val) => setSalaryLevel(val?.value || "")}
+              onChange={(_, val) =>
+                handleChange("salaryLevel", val?.value || "")
+              }
               renderInput={(params) => (
                 <TextField
                   {...params}
