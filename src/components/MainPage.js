@@ -73,8 +73,11 @@ const MainPage = () => {
       ...searchValues,
       ...params,
     };
+    // 根據螢幕寬度決定 pre_page
+    const isMobile = window.innerWidth < 600;
+    const prePage = isMobile ? 4 : 6;
     const query = [
-      `pre_page=6`,
+      `pre_page=${prePage}`,
       `page=${pageNum || 1}`,
       companyName ? `company_name=${encodeURIComponent(companyName)}` : "",
       educationLevel ? `education_level=${educationLevel}` : "",
