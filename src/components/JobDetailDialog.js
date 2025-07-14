@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   Dialog,
   DialogTitle,
@@ -11,22 +11,10 @@ import {
   CircularProgress,
 } from "@mui/material";
 import Carousel from "./Carousel";
+import useJobDetail from "../hooks/useJobDetail";
 
 function JobDetailDialog({ open, jobId, onClose }) {
-  const [job, setJob] = useState(null);
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    if (!open || !jobId) {
-      setJob(null);
-      return;
-    }
-    setLoading(true);
-    fetch(`/api/v1/jobs/${jobId}`)
-      .then((res) => res.json())
-      .then((data) => setJob(data))
-      .finally(() => setLoading(false));
-  }, [open, jobId]);
+  const { data: job, loading } = useJobDetail(open ? jobId : null);
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>

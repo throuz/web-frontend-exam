@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import HeroSection from "./HeroSection";
 import SearchPanel from "./SearchPanel";
+import useEducationList from "../hooks/useEducationList";
+import useSalaryList from "../hooks/useSalaryList";
+import useJobs from "../hooks/useJobs";
 
 function getQueryParams() {
   const params = new URLSearchParams(window.location.search);
@@ -24,12 +27,6 @@ function setQueryParams({ companyName, educationLevel, salaryLevel, page }) {
 }
 
 const MainPage = () => {
-  const [educationOptions, setEducationOptions] = useState([]);
-  const [salaryOptions, setSalaryOptions] = useState([]);
-  const [jobList, setJobList] = useState([]);
-  const [total, setTotal] = useState(0);
-  const [loading, setLoading] = useState(true);
-
   // 讀取 query string 作為初始值
   const initialQuery = getQueryParams();
   const [page, setPage] = useState(initialQuery.page);
@@ -39,95 +36,77 @@ const MainPage = () => {
     salaryLevel: initialQuery.salaryLevel,
   });
 
-  // 取得下拉選單
-  useEffect(() => {
-    setLoading(true);
-    Promise.all([
-      fetch("/api/v1/educationLevelList").then((res) => res.json()),
-      fetch("/api/v1/salaryLevelList").then((res) => res.json()),
-    ])
-      .then(([education, salary]) => {
-        const educationData = [
-          { label: "不限", value: "" },
-          ...education.map((item) => ({ label: item.label, value: item.id })),
-        ];
-        const salaryData = [
-          { label: "不限", value: "" },
-          ...salary.map((item) => ({ label: item.label, value: item.id })),
-        ];
-        setEducationOptions(educationData);
-        setSalaryOptions(salaryData);
-      })
-      .finally(() => setLoading(false));
-  }, []);
+  // hooks 取得資料
+  const {
+    data: educationData,
+    loading: educationLoading,
+    error: educationError,
+  } = useEducationList();
+  const {
+    data: salaryData,
+    loading: salaryLoading,
+    error: salaryError,
+  } = useSalaryList();
+  const {
+    data: jobsData,
+    loading: jobsLoading,
+    error: jobsError,
+  } = useJobs({
+    company_name: searchValues.companyName,
+    education_level: searchValues.educationLevel,
+    salary_level: searchValues.salaryLevel,
+    page,
+    pre_page: window.innerWidth < 600 ? 4 : 6,
+  });
 
-  // 取得職缺資料
-  const fetchJobs = (params = {}) => {
-    setLoading(true);
-    const {
-      companyName,
-      educationLevel,
-      salaryLevel,
-      page: pageNum,
-    } = {
-      ...searchValues,
-      ...params,
-    };
-    // 根據螢幕寬度決定 pre_page
-    const isMobile = window.innerWidth < 600;
-    const prePage = isMobile ? 4 : 6;
-    const query = [
-      `pre_page=${prePage}`,
-      `page=${pageNum || 1}`,
-      companyName ? `company_name=${encodeURIComponent(companyName)}` : "",
-      educationLevel ? `education_level=${educationLevel}` : "",
-      salaryLevel ? `salary_level=${salaryLevel}` : "",
-    ]
-      .filter(Boolean)
-      .join("&");
-    fetch(`/api/v1/jobs?${query}`)
-      .then((res) => res.json())
-      .then((data) => {
-        // mapping
-        const eduMap = Object.fromEntries(
-          educationOptions
-            .filter((e) => e.value !== "")
-            .map((e) => [e.value, e.label])
-        );
-        const salMap = Object.fromEntries(
-          salaryOptions
-            .filter((s) => s.value !== "")
-            .map((s) => [s.value, s.label])
-        );
-        const mappedJobs = (data.data || []).map((job) => ({
-          ...job,
-          educationLabel: eduMap[job.educationId] || "學歷",
-          salaryLabel: salMap[job.salaryId] || "薪水範圍",
-        }));
-        setJobList(mappedJobs);
-        setTotal(data.total || 0);
-      })
-      .finally(() => setLoading(false));
-  };
+  // 下拉選單 options
+  const educationOptions = educationData
+    ? [
+        { label: "不限", value: "" },
+        ...educationData.map((item) => ({ label: item.label, value: item.id })),
+      ]
+    : [];
+  const salaryOptions = salaryData
+    ? [
+        { label: "不限", value: "" },
+        ...salaryData.map((item) => ({ label: item.label, value: item.id })),
+      ]
+    : [];
 
-  // 監聽搜尋條件/分頁變動時，同步 query string 並取得資料
+  // 職缺列表 mapping
+  const eduMap = Object.fromEntries(
+    educationOptions
+      .filter((e) => e.value !== "")
+      .map((e) => [e.value, e.label])
+  );
+  const salMap = Object.fromEntries(
+    salaryOptions.filter((s) => s.value !== "").map((s) => [s.value, s.label])
+  );
+  const jobList = (jobsData?.data || []).map((job) => ({
+    ...job,
+    educationLabel: eduMap[job.educationId] || "學歷",
+    salaryLabel: salMap[job.salaryId] || "薪水範圍",
+  }));
+  const total = jobsData?.total || 0;
+
+  // loading 狀態
+  const loading = educationLoading || salaryLoading || jobsLoading;
+
+  // 監聽搜尋條件/分頁變動時，同步 query string
   useEffect(() => {
     setQueryParams({ ...searchValues, page });
-    fetchJobs({ page });
     // eslint-disable-next-line
-  }, [educationOptions, salaryOptions, page, searchValues]);
+  }, [page, searchValues]);
 
   // 搜尋事件
   const handleSearch = (values) => {
     setSearchValues(values);
     setPage(1);
-    // fetchJobs({ ...values, page: 1 }); // 由 useEffect 處理
   };
 
   // 分頁事件
   const handlePageChange = (newPage) => {
     setPage(newPage);
-    // fetchJobs({ page: newPage }); // 由 useEffect 處理
   };
 
   return (
