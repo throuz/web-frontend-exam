@@ -1,3 +1,70 @@
+# 專案說明
+
+## 如何執行此專案
+
+### 安裝依賴
+```bash
+yarn install
+```
+
+### 啟動開發伺服器
+```bash
+yarn start
+```
+啟動後請至 [http://localhost:3000](http://localhost:3000) 查看專案畫面。
+
+---
+
+## 專案架構、邏輯說明
+
+### 主要目錄結構
+```
+src/
+  components/         # 所有 React 元件（頁面、區塊、UI 元件）
+  hooks/              # 所有自訂 React hooks（資料查詢、UI 行為等）
+  constants/          # 靜態資料（如 jobList、educationList、salaryList）
+  images/             # 專案用到的圖片資源
+  icons/              # 專案用到的 icon 資源
+  App.js              # React 入口元件
+  index.js            # 應用程式進入點
+```
+
+### 主要邏輯說明
+
+- **資料查詢**：所有 API 查詢都透過自訂 hook（如 `useJobsQuery`, `useEducationListQuery` 等），底層共用 `useQuery`，具備快取機制，避免重複請求。
+- **搜尋與分頁**：`SearchPanel` 元件負責搜尋條件、分頁狀態管理，並將查詢條件同步到 URL query string，方便分享與返回。
+- **元件拆分**：表單、列表、Dialog、Carousel 等皆拆分為獨立元件，提升可維護性與重用性。
+- **UI 框架**：全專案採用 Material UI（MUI）設計，並將顏色、字型等整合進 MUI theme。
+- **動畫與互動**：HeroSection 的 logo 具備無限縮放動畫，眼球會根據滑鼠移動（桌機）追蹤，Carousel 支援拖曳、觸控、自動輪播等現代互動。
+
+---
+
+## 專案遇到的困難、問題及解決方法
+
+### 1. **資料查詢快取與即時性平衡**
+- **困難**：如何避免重複 API 請求、又能確保資料不會過舊？
+- **解決**：自訂 useQuery hook，預設快取查詢結果，提升效能與體驗。若需即時資料，可手動刷新或調整快取策略。
+
+### 2. **搜尋條件與 URL 同步**
+- **困難**：搜尋條件、分頁如何與 URL query string 同步，並支援返回/分享？
+- **解決**：自訂 useQueryParams hook，將搜尋條件與 URL 綁定，並於 SearchPanel 內部管理狀態，確保 UI 與網址同步。
+
+### 3. **元件拆分與資料流設計**
+- **困難**：如何避免 props drilling、又能讓元件易於維護與重用？
+- **解決**：將狀態提升至容器元件（如 SearchPanel），共用元件（如 SearchForm、JobListSection）僅負責 UI，資料流清晰。
+
+### 4. **Carousel 輪播圖互動**
+- **困難**：需同時支援自動輪播、拖曳、觸控、吸附、指示點等複雜互動。
+- **解決**：自訂 Carousel 元件，整合多種互動行為，並用 useRef/useEffect 管理拖曳與自動輪播。
+
+### 5. **動畫與響應式設計**
+- **困難**：HeroSection 動畫需兼顧桌機與手機體驗，眼球動畫需在手機靜止。
+- **解決**：用 CSS keyframes 與 JS 判斷螢幕寬度，分別處理動畫與互動。
+
+---
+
+# 以下為原始考題說明與 API 文件
+
 # Frontend Engineer Exam
 
 這是一份 Yile 前端工程師的徵才專案，會需根據規則及設計檔完成頁面需求。
