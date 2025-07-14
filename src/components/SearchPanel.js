@@ -18,21 +18,33 @@ const SearchPanel = ({ onSearch, page, onPageChange, searchValues }) => {
   const [salaryLevel, setSalaryLevel] = useState(
     searchValues?.salaryLevel || ""
   );
+  // 新增：已提交的查詢條件
+  const [submittedValues, setSubmittedValues] = useState({
+    companyName: searchValues?.companyName || "",
+    educationLevel: searchValues?.educationLevel || "",
+    salaryLevel: searchValues?.salaryLevel || "",
+  });
 
   // 當 searchValues 變動時同步表單狀態（如 query string 變動）
   useEffect(() => {
     setCompanyName(searchValues?.companyName || "");
     setEducationLevel(searchValues?.educationLevel || "");
     setSalaryLevel(searchValues?.salaryLevel || "");
+    setSubmittedValues({
+      companyName: searchValues?.companyName || "",
+      educationLevel: searchValues?.educationLevel || "",
+      salaryLevel: searchValues?.salaryLevel || "",
+    });
   }, [searchValues]);
 
   // hooks 取得資料
   const { data: educationData, loading: educationLoading } = useEducationList();
   const { data: salaryData, loading: salaryLoading } = useSalaryList();
+  // 只根據 submittedValues 查詢
   const { data: jobsData, loading: jobsLoading } = useJobs({
-    company_name: companyName,
-    education_level: educationLevel,
-    salary_level: salaryLevel,
+    company_name: submittedValues.companyName,
+    education_level: submittedValues.educationLevel,
+    salary_level: submittedValues.salaryLevel,
     page,
     pre_page: window.innerWidth < 600 ? 4 : 6,
   });
@@ -70,6 +82,12 @@ const SearchPanel = ({ onSearch, page, onPageChange, searchValues }) => {
 
   // 條件搜尋
   const handleSearch = () => {
+    setSubmittedValues({
+      companyName,
+      educationLevel,
+      salaryLevel,
+    });
+    // 通知父層重設 page
     onSearch &&
       onSearch({
         companyName,
