@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Box, Paper } from "@mui/material";
 import SearchForm from "./SearchForm";
+import SearchFormTitle from "./SearchFormTitle";
 import JobListSection from "./JobListSection";
 
 const SearchPanel = ({
@@ -63,7 +64,9 @@ const SearchPanel = ({
       }}
     >
       <Paper elevation={1} sx={{ borderRadius: 2, p: 3 }}>
-        {/* Search Form */}
+        {/* Search Title (手機與桌機都顯示) */}
+        <SearchFormTitle />
+        {/* Search Form (桌機顯示) */}
         <SearchForm
           companyName={companyName}
           setCompanyName={setCompanyName}
