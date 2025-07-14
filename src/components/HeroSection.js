@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Box } from "@mui/material";
+import { keyframes } from "@mui/system";
 import bgImg from "../images/background.jpg";
 import characterWhiteImg from "../images/character-white.png";
 import characterImg from "../images/character.png";
@@ -7,13 +8,19 @@ import leftEyeImg from "../images/left-eye.png";
 import rightEyeImg from "../images/right-eye.png";
 import logoImg from "../images/logo.png";
 
+// 定義 keyframes
+const logoScale = keyframes`
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+`;
+
 const HeroSection = () => {
   const heroRef = useRef(null);
   const [eyeOffset, setEyeOffset] = useState({
     left: { x: 0, y: 0 },
     right: { x: 0, y: 0 },
   });
-  const [logoScale, setLogoScale] = useState(1);
   const EYE_MOVE = { x: 4, y: 4 };
 
   useEffect(() => {
@@ -49,23 +56,6 @@ const HeroSection = () => {
       window.removeEventListener("mouseleave", handleMouseLeave);
     };
   }, [EYE_MOVE.x, EYE_MOVE.y]);
-
-  // logo 無限放大縮小動畫
-  useEffect(() => {
-    let grow = true;
-    const interval = setInterval(() => {
-      setLogoScale((prev) => {
-        if (grow) {
-          grow = false;
-          return 1.15;
-        } else {
-          grow = true;
-          return 1;
-        }
-      });
-    }, 750); // 1.5秒一個輪迴，750ms放大，750ms縮小
-    return () => clearInterval(interval);
-  }, []);
 
   return (
     <Box
@@ -151,8 +141,7 @@ const HeroSection = () => {
           right: { xs: 11, md: 83 },
           width: { xs: 137, md: 540 },
           zIndex: 2,
-          transform: `scale(${logoScale})`,
-          transition: "transform 0.75s cubic-bezier(.4,0,.2,1)",
+          animation: `${logoScale} 1.5s infinite cubic-bezier(.4,0,.2,1)`,
         }}
       />
     </Box>
