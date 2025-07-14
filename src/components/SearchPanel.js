@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Box, Paper } from "@mui/material";
 import SearchForm from "./SearchForm";
 import SearchSectionTitle from "./SearchSectionTitle";
@@ -6,6 +6,70 @@ import JobListSection from "./JobListSection";
 import useEducationList from "../hooks/useEducationList";
 import useSalaryList from "../hooks/useSalaryList";
 import useJobs from "../hooks/useJobs";
+
+// custom hook: 處理 options 產生
+function useJobOptions(educationData, salaryData) {
+  const educationOptions = useMemo(
+    () =>
+      educationData
+        ? [
+            { label: "不限", value: "" },
+            ...educationData.map((item) => ({
+              label: item.label,
+              value: item.id,
+            })),
+          ]
+        : [],
+    [educationData]
+  );
+  const salaryOptions = useMemo(
+    () =>
+      salaryData
+        ? [
+            { label: "不限", value: "" },
+            ...salaryData.map((item) => ({
+              label: item.label,
+              value: item.id,
+            })),
+          ]
+        : [],
+    [salaryData]
+  );
+  return { educationOptions, salaryOptions };
+}
+
+// custom hook: 處理 jobList mapping
+function useJobListMapping(jobsData, educationOptions, salaryOptions) {
+  const eduMap = useMemo(
+    () =>
+      Object.fromEntries(
+        (educationOptions || [])
+          .filter((e) => e.value !== "")
+          .map((e) => [e.value, e.label])
+      ),
+    [educationOptions]
+  );
+  const salMap = useMemo(
+    () =>
+      Object.fromEntries(
+        (salaryOptions || [])
+          .filter((s) => s.value !== "")
+          .map((s) => [s.value, s.label])
+      ),
+    [salaryOptions]
+  );
+  const jobList = useMemo(
+    () =>
+      (jobsData?.data || []).map((job) => ({
+        ...job,
+        educationLabel: eduMap[job.educationId] || "學歷",
+        salaryLabel: salMap[job.salaryId] || "薪水範圍",
+      })),
+    [jobsData, eduMap, salMap]
+  );
+  const total = jobsData?.total || 0;
+  return { jobList, total };
+}
 
 const SearchPanel = ({ onSearch, page, onPageChange, searchValues }) => {
   // 受控表單狀態
@@ -49,35 +113,17 @@ const SearchPanel = ({ onSearch, page, onPageChange, searchValues }) => {
     pre_page: window.innerWidth < 600 ? 4 : 6,
   });
 
-  // 下拉選單 options
-  const educationOptions = educationData
-    ? [
-        { label: "不限", value: "" },
-        ...educationData.map((item) => ({ label: item.label, value: item.id })),
-      ]
-    : [];
-  const salaryOptions = salaryData
-    ? [
-        { label: "不限", value: "" },
-        ...salaryData.map((item) => ({ label: item.label, value: item.id })),
-      ]
-    : [];
-
-  // 職缺列表 mapping
-  const eduMap = Object.fromEntries(
-    educationOptions
-      .filter((e) => e.value !== "")
-      .map((e) => [e.value, e.label])
+  // 使用 custom hook 處理 options
+  const { educationOptions, salaryOptions } = useJobOptions(
+    educationData,
+    salaryData
   );
-  const salMap = Object.fromEntries(
-    salaryOptions.filter((s) => s.value !== "").map((s) => [s.value, s.label])
+  // 使用 custom hook 處理 jobList mapping
+  const { jobList, total } = useJobListMapping(
+    jobsData,
+    educationOptions,
+    salaryOptions
   );
-  const jobList = (jobsData?.data || []).map((job) => ({
-    ...job,
-    educationLabel: eduMap[job.educationId] || "學歷",
-    salaryLabel: salMap[job.salaryId] || "薪水範圍",
-  }));
-  const total = jobsData?.total || 0;
   const loading = educationLoading || salaryLoading || jobsLoading;
 
   // 條件搜尋
