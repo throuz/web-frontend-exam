@@ -44,6 +44,7 @@ export default function useQuery({ url, params, enabled = true, cacheKey }) {
       })
       .finally(() => setLoading(false));
     return () => controller.abort();
+    // 只依賴 key，避免不必要的 re-fetch，參考 React Query/SWR 實踐
     // eslint-disable-next-line
   }, [key, enabled]);
 
