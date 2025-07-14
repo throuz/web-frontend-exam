@@ -1,7 +1,7 @@
 import React from "react";
 import { Stack, Box, Typography } from "@mui/material";
 
-const SearchFormTitle = () => (
+const SearchSectionTitle = () => (
   <Stack direction="row" alignItems="center" spacing={1.5} mb={2.5}>
     <Box
       component="span"
@@ -24,4 +24,4 @@ const SearchFormTitle = () => (
   </Stack>
 );
 
-export default SearchFormTitle;
+export default SearchSectionTitle;
