@@ -13,11 +13,11 @@ import { ReactComponent as PaidOutlinedIcon } from "../icons/salary-range.svg";
 import { useTheme } from "@mui/material/styles";
 
 const JobCard = ({
-  companyName = "弈樂科技",
-  jobTitle = "前端工程師 Frontend Engineer",
-  education = "學歷",
-  salary = "薪水範圍",
-  preview = "負責設計、開發和維護技術方案，解決複雜的問題。擁有卓越的問題解決能力和創新思維，熟練應用科技工具，確保項目高效實施。具備協作精神，致力於推動科技進步。",
+  companyName = "",
+  jobTitle = "",
+  education = "",
+  salary = "",
+  preview = "",
   onDetailClick = () => {},
 }) => {
   const theme = useTheme();
