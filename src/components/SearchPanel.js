@@ -64,12 +64,12 @@ const SearchPanel = () => {
         transform: "translateX(-50%)",
         width: "100%",
         zIndex: 20,
-        px: 3.5,
-        pb: 3.5,
+        px: { xs: 0, md: 3.5 },
+        pb: { xs: 0, md: 3.5 },
         boxSizing: "border-box",
       }}
     >
-      <Paper elevation={1} sx={{ borderRadius: 2, p: 3 }}>
+      <Paper elevation={1} sx={{ borderRadius: { xs: 0, md: 2 }, p: 3 }}>
         {/* Search Title (手機與桌機都顯示) */}
         <SearchSectionTitle />
         {/* Search Form (桌機顯示) */}
