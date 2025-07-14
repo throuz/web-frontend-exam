@@ -2,12 +2,12 @@ import React, { useRef } from "react";
 import { Box } from "@mui/material";
 import { keyframes } from "@mui/system";
 import useEyeFollow from "../hooks/useEyeFollow";
-import bgImg from "../images/background.jpg";
-import characterWhiteImg from "../images/character-white.png";
-import characterImg from "../images/character.png";
-import leftEyeImg from "../images/left-eye.png";
-import rightEyeImg from "../images/right-eye.png";
-import logoImg from "../images/logo.png";
+import bgImg from "../images/background.webp";
+import characterWhiteImg from "../images/character-white.webp";
+import characterImg from "../images/character.webp";
+import leftEyeImg from "../images/left-eye.webp";
+import rightEyeImg from "../images/right-eye.webp";
+import logoImg from "../images/logo.webp";
 
 // 定義 keyframes
 const logoScale = keyframes`
@@ -30,7 +30,7 @@ const HeroSection = () => {
         overflow: "hidden",
       }}
     >
-      {/* background.jpg */}
+      {/* background.webp */}
       <Box
         component="img"
         src={bgImg}
@@ -44,7 +44,7 @@ const HeroSection = () => {
           zIndex: 1,
         }}
       />
-      {/* character-white.png */}
+      {/* character-white.webp */}
       <Box
         component="img"
         src={characterWhiteImg}
@@ -56,7 +56,7 @@ const HeroSection = () => {
           zIndex: 2,
         }}
       />
-      {/* character.png */}
+      {/* character.webp */}
       <Box
         component="img"
         src={characterImg}
@@ -68,7 +68,7 @@ const HeroSection = () => {
           zIndex: 4,
         }}
       />
-      {/* left-eye.png */}
+      {/* left-eye.webp */}
       <Box
         component="img"
         src={leftEyeImg}
@@ -81,7 +81,7 @@ const HeroSection = () => {
           transform: `translate(${eyeOffset.left.x}px, ${eyeOffset.left.y}px)`,
         }}
       />
-      {/* right-eye.png */}
+      {/* right-eye.webp */}
       <Box
         component="img"
         src={rightEyeImg}
@@ -94,7 +94,7 @@ const HeroSection = () => {
           transform: `translate(${eyeOffset.right.x}px, ${eyeOffset.right.y}px)`,
         }}
       />
-      {/* logo.png */}
+      {/* logo.webp */}
       <Box
         component="img"
         src={logoImg}
